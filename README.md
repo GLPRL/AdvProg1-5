@@ -1,4 +1,4 @@
-# AdvProg1-4: KNN Server
+# AdvProg1-5: Multiple Client, Single Knn Server
 Fourth Task in Advanced Programming 1 course 2023/838921001
 
 Authors:
@@ -9,16 +9,13 @@ Dekel Schreiber
 
 In this task, there will be five algorithms for calculating vectors, in different approaches.
 For example:
-We will receive a vector of data of some flower, lets say an Iris. We will find it's closest neighbor, with the least difference between their
-attributes:
-1) Cup leaves width
-2) Cup leaves length
-3) Petals width
-4) Petals length
+We will receive a vector of data of some family of objects with attributes, measured by numerical values. We will find it's closest neighbor, with the smallest difference between their attributes
 
-We will find the closest neighbors and classify the input vectors as the type of the flower.
+We will find the closest neighbors and classify the input vectors as the type of the given item.
 
 Comparisons can be made between each family: Irises, Wines, Beans, etc etc. each archtype has their own attributes to compare.
+
+#UPDATE
 
 ### Compliation Instructions:
 First, clone/download zip of the repository, 
@@ -148,5 +145,7 @@ After the distance was calculated, we sort using a specialized "less"-operator, 
 count the K - first TypeVectors, and find the one who appeared the most times - and return the type of it, back to the main function which server
 running, sent back to the client as simple text to print.
 After finishing, the server will wait for more data to be sent, and allows up to 5 clients simultaneously.
+
+#MORE INFO ABOUT THE NEXT TASK
    
 <sub> Images and some explanations sourced from Wikipedia pages of the distance formulas </sub>
