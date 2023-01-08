@@ -15,7 +15,7 @@ We will find the closest neighbors and classify the input vectors as the type of
 
 Comparisons can be made between each family: Irises, Wines, Beans, etc etc. each archtype has their own attributes to compare.
 
-#UPDATE
+# UPDATE
 
 ### Compliation Instructions:
 First, clone/download zip of the repository, 
@@ -146,6 +146,6 @@ count the K - first TypeVectors, and find the one who appeared the most times - 
 running, sent back to the client as simple text to print.
 After finishing, the server will wait for more data to be sent, and allows up to 5 clients simultaneously.
 
-#MORE INFO ABOUT THE NEXT TASK
+# MORE INFO ABOUT THE NEXT TASK
    
 <sub> Images and some explanations sourced from Wikipedia pages of the distance formulas </sub>
