@@ -4,7 +4,6 @@ Fourth Task in Advanced Programming 1 course 2023/838921001
 Authors:
 
 Gal Pearl,
-
 Dekel Schreiber
 
 In this task, there will be five algorithms for calculating vectors, in different approaches.
@@ -24,7 +23,7 @@ cloning:
 git clone https://github.com/GLPRL/AdvProg1-5
 ```
 (ZIP requires unpacking, use your preffered method)
-and "cd" into the un-packed project folder
+and cd into the un-packed project folder
 Among all the files, there's a makefile for using make. However, you'll need to use it for the entity you need:
 
 inside KnnServer there will be a makefile for the server, and inside the KnnClient there will be for creating a client.
@@ -32,6 +31,8 @@ Choose which ever you want, and
 ```
 make
 ```
+
+**As usual, the CSV files must be in the same directory with the executable.
 
 ##### Run instructions for server:
 
@@ -52,7 +53,6 @@ Each one of them is required for correct functionality and connectivity of the s
 ```
 ./server.out <file> <port>
 ```
-**For the program to identify the CSV files, they need to be in the same directory with the project files**
 - file: Name of the CSV file. Must be in the same directory as project files.
 - port: A valid port in range of 0-65535. We will check at runtime.
 
