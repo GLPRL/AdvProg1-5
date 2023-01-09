@@ -1,4 +1,4 @@
-# AdvProg1-5: Multiple Client, Single Knn Server
+# AdvProg1-5: Multiple Clients, Single Knn Server
 Fourth Task in Advanced Programming 1 course 2023/838921001
 
 Authors:
