@@ -3,9 +3,9 @@ project(AdvProg1_4)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(AdvProg1_4 MainDistance.cpp
-        Algorithms.h
-        Algorithms.cpp
-        TypeVector.h
-        TypeVector.cpp
-        knnServer.cpp knnServer.h MainDistance.h)
+add_executable(AdvProg1_4 KnnServer/MainDistance.cpp
+        KnnServer/Algorithms.h
+        KnnServer/Algorithms.cpp
+        KnnServer/TypeVector.h
+        KnnServer/TypeVector.cpp
+        KnnServer/knnServer.cpp KnnServer/knnServer.h KnnServer/MainDistance.h)

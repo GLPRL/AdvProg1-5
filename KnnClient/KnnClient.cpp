@@ -19,20 +19,15 @@ int readVector(string &distanceType, int &k,vector<double> &v,char c[] ) {
     for(int i=0;i<lin.length();i++){
         c[i]=lin[i];
     }
-    //c[lin.length()+1] = '\0';
-    c[lin.length()] = '\0';
+    c[lin.length()] = '\0';                         //c[lin.length()+1] = '\0';
     if(lin.compare("-1")==0){
         return 0;
     }
     lin = ' ' + lin + " ";
-    // If there is more than one space in a row, then return
-    //and allow re-entry
+                                            // If there is more than one space in a row, then return and allow re-entry
     if (lin.find("  ") != string::npos) {
-        // vector<double> ve;
-        //return ve;
         return -1;
     }
-    //vector<double> v;
     int pos = 0,y;
     double x;
     char *e;
@@ -41,7 +36,6 @@ int readVector(string &distanceType, int &k,vector<double> &v,char c[] ) {
     int wasK = 0;
 
     lin.erase(0,1);
-
     // Loop until the end of the string each time separating the spaces.
     while ((pos = lin.find(" ")) != string::npos) {
         string sub = lin.substr(0, pos);
@@ -80,8 +74,6 @@ int readVector(string &distanceType, int &k,vector<double> &v,char c[] ) {
         }
         lin.erase(0, pos + 1);
     }
-    //v.erase(v.begin());
-    //if(wasDistance && readK) {
     if(wasDistance && wasK) {
         return 1;
     }
