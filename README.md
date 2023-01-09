@@ -11,7 +11,7 @@ We receive a unclassified CSV file format of some archtype of items to classify,
 
 Each vector in the unclassified CSV will be classified, according to known algorithms and number of closest neighbors, and then will be saved/displayed to the user.
 
-Comparisons can be made between each family: Irises, Wines, Beans, etc etc. each archtype has their own attributes to compare.
+Comparisons can be made between a single archtype, as each has their own attributes to compare.
 
 # UPDATE
 
