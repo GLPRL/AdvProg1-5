@@ -32,7 +32,7 @@ Choose which ever you want, and
 make
 ```
 
-**As usual, the CSV files must be in the same directory with the executable.
+**As usual, the CSV files must be in the same directory with the executable.**
 
 ##### Run instructions for server:
 
