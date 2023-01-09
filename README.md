@@ -21,12 +21,14 @@ Comparisons can be made between each family: Irises, Wines, Beans, etc etc. each
 First, clone/download zip of the repository, 
 cloning:
 ```
-git clone https://github.com/GLPRL/AdvProg1_4
+git clone https://github.com/GLPRL/AdvProg1-5
 ```
 (ZIP requires unpacking, use your preffered method)
 and "cd" into the un-packed project folder
-Among all the files, there's a makefile for using make:
+Among all the files, there's a makefile for using make. However, you'll need to use it for the entity you need:
 
+inside KnnServer there will be a makefile for the server, and inside the KnnClient there will be for creating a client.
+Choose which ever you want, and
 ```
 make
 ```
