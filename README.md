@@ -33,8 +33,6 @@ Choose which ever you want, and
 make
 ```
 
-This time, our makefile will compile TWO executables: the KnnClient and the KnnServer.
-
 ##### Run instructions for server:
 
 First, you must check if a port is available. Do it with 
@@ -149,5 +147,18 @@ running, sent back to the client as simple text to print.
 After finishing, the server will wait for more data to be sent, and allows up to 5 clients simultaneously.
 
 # MORE INFO ABOUT THE NEXT TASK
+### Design Patter: Command
+![image](https://user-images.githubusercontent.com/116657293/211402849-f1d01908-18af-4c38-a03a-fede81e50ece.png)
+
+In this pattern, each command sent from a user will be some class, with attributes of:
+- String describing the action of the command.
+- dIO item, which reading/sending data to the server.
+
+Commands List:
+- Upload an unclassified CSV file to server
+- Algorithm settings
+- Classify the data
+- Display results
+- Download results from server, into a CSV file
    
 <sub> Images and some explanations sourced from Wikipedia pages of the distance formulas </sub>
