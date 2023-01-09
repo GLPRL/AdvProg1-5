@@ -7,10 +7,9 @@ Gal Pearl,
 Dekel Schreiber
 
 In this task, there will be five algorithms for calculating vectors, in different approaches.
-For example:
-We will receive a vector of data of some family of objects with attributes, measured by numerical values. We will find it's closest neighbor, with the smallest difference between their attributes
+We receive a unclassified CSV file format of some archtype of items to classify, according to a existing CSV file loaded in the server.
 
-We will find the closest neighbors and classify the input vectors as the type of the given item.
+Each vector in the unclassified CSV will be classified, according to known algorithms and number of closest neighbors, and then will be saved/displayed to the user.
 
 Comparisons can be made between each family: Irises, Wines, Beans, etc etc. each archtype has their own attributes to compare.
 
