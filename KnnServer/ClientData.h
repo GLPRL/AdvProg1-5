@@ -11,39 +11,44 @@ using namespace std;
 #include "TypeVector.h"
 
 class ClientData {
-private:
+    string alg;
     string fileName;
     int k;
     vector <TypeVector> tv;
     vector <double> v;
     map<string, int> names;
     int vSize;
+public:         //constr, getters, setters
+    ClientData(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv, const vector<double> &v,
+               const map<string, int> &names, int vSize);
 
-public:
-    const vector<TypeVector> &getTv() const;
-    ClientData (string fileName, int k, vector <TypeVector> tv, vector<double> v, map<string, int> names, int vSize);
+    const string &getAlg() const;
 
-    void setFileName(const string &fileName);
-
-    void setK(int k);
-
-    void setTv(const vector<TypeVector> &tv);
-
-    void setV(const vector<double> &v);
-
-    void setNames(const map<string, int> &names);
-
-    void setVSize(int vSize);
+    void setAlg(const string &alg);
 
     const string &getFileName() const;
 
+    void setFileName(const string &fileName);
+
     int getK() const;
+
+    void setK(int k);
+
+    const vector<TypeVector> &getTv() const;
+
+    void setTv(const vector<TypeVector> &tv);
 
     const vector<double> &getV() const;
 
+    void setV(const vector<double> &v);
+
     const map<string, int> &getNames() const;
 
+    void setNames(const map<string, int> &names);
+
     int getVSize() const;
+
+    void setVSize(int vSize);
 };
 
 

@@ -1,11 +1,9 @@
-//
-// Created by Dekel on 02/12/2022.
-//
+
 
 #ifndef ADVPROG1_2_TYPEVECTOR_H
 #define ADVPROG1_2_TYPEVECTOR_H
-#include <string>
 using namespace std;
+#include <string>
 #include <vector>
 class TypeVector {
     vector<double> v;
