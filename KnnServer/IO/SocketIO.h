@@ -15,5 +15,4 @@ public:
     string read() override;
 };
 
-
 #endif //ADVPROG1_4_SOCKETIO_H

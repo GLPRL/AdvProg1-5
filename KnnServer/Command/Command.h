@@ -5,7 +5,7 @@
 using namespace std;
 #include <string>
 #include "../IO/DefaultIO.h"
-#include "../ClientData.h"
+#include "../Client.h"
 
 template <class T>
 class Command {

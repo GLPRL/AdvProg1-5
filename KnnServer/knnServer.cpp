@@ -5,7 +5,7 @@
  * Seprates the info to number vector, distanceType and k.
  */
 void extract(char c[],int &k,string &distanceType,vector<double> &v) {
-    int temp;
+
     string s (c);
     char *e;
     int pos=0;

@@ -2,7 +2,7 @@
 // Created by gp on 1/11/23.
 //
 
-#include "ClientData.h"
+#include "Client.h"
 
 ClientData::ClientData(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv,
                        const vector<double> &v, const map<string, int> &names, int vSize) : alg(alg),

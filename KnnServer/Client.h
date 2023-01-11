@@ -1,16 +1,13 @@
-//
-// Created by gp on 1/11/23.
-//
 
-#ifndef ADVPROG1_4_CLIENTDATA_H
-#define ADVPROG1_4_CLIENTDATA_H
+#ifndef ADVPROG1_4_CLIENT_H
+#define ADVPROG1_4_CLIENT_H
 using namespace std;
 
 #include <map>
 #include "string"
 #include "TypeVector.h"
 
-class ClientData {
+class Client {
     string alg;
     string fileName;
     int k;
@@ -19,7 +16,7 @@ class ClientData {
     map<string, int> names;
     int vSize;
 public:         //constr, getters, setters
-    ClientData(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv, const vector<double> &v,
+    Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv, const vector<double> &v,
                const map<string, int> &names, int vSize);
 
     const string &getAlg() const;
@@ -50,6 +47,4 @@ public:         //constr, getters, setters
 
     void setVSize(int vSize);
 };
-
-
-#endif //ADVPROG1_4_CLIENTDATA_H
+#endif //ADVPROG1_4_CLIENT_H
