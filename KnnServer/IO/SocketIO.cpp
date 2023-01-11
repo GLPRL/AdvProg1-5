@@ -1,4 +1,4 @@
-#include "../KnnServer/knnServer.h"
+#include "../knnServer.h"
 #include "SocketIO.h"
 
 string SocketIO::read() {

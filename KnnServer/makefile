@@ -13,5 +13,7 @@ MainDistance.o: MainDistance.cpp
 TypeVector.o: TypeVector.cpp KnnServer/TypeVector.h
 	g++ -c TypeVector.cpp
 
+#need to compile/link the IO and Command dirs too
+
 clean:
 	rm *.o *.out
