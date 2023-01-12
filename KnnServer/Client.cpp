@@ -4,65 +4,65 @@
 
 #include "Client.h"
 
-ClientData::ClientData(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv,
-                       const vector<double> &v, const map<string, int> &names, int vSize) : alg(alg),
+Client::Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv,
+                       const vector<vector<double>> &v, const map<string, int> &names, int vSize) : alg(alg),
                                                                                             fileName(fileName), k(k),
                                                                                             tv(tv), v(v), names(names),
                                                                                             vSize(vSize) {}
 
-const string &ClientData::getAlg() const {
+const string &Client::getAlg() const {
     return alg;
 }
 
-void ClientData::setAlg(const string &alg) {
-    ClientData::alg = alg;
+void Client::setAlg(const string &alg) {
+    Client::alg = alg;
 }
 
-const string &ClientData::getFileName() const {
+const string &Client::getFileName() const {
     return fileName;
 }
 
-void ClientData::setFileName(const string &fileName) {
-    ClientData::fileName = fileName;
+void Client::setFileName(const string &fileName) {
+    Client::fileName = fileName;
 }
 
-int ClientData::getK() const {
+int Client::getK() const {
     return k;
 }
 
-void ClientData::setK(int k) {
-    ClientData::k = k;
+void Client::setK(int k) {
+    Client::k = k;
 }
 
-const vector<TypeVector> &ClientData::getTv() const {
+const vector<TypeVector> &Client::getTv() const {
     return tv;
 }
 
-void ClientData::setTv(const vector<TypeVector> &tv) {
-    ClientData::tv = tv;
+void Client::setTv(const vector<TypeVector> &tv) {
+    Client::tv = tv;
 }
 
-const vector<double> &ClientData::getV() const {
+const vector<vector<double>> &Client::getV() const {
     return v;
 }
 
-void ClientData::setV(const vector<double> &v) {
-    ClientData::v = v;
+void Client::setV(const vector<vector<double>> &v) {
+    Client::v = v;
 }
 
-const map<string, int> &ClientData::getNames() const {
+const map<string, int> &Client::getNames() const {
     return names;
 }
 
-void ClientData::setNames(const map<string, int> &names) {
-    ClientData::names = names;
+void Client::setNames(const map<string, int> &names) {
+    Client::names = names;
 }
 
-int ClientData::getVSize() const {
+int Client::getVSize() const {
     return vSize;
 }
 
-void ClientData::setVSize(int vSize) {
-    ClientData::vSize = vSize;
+void Client::setVSize(int vSize) {
+    Client::vSize = vSize;
 }
 

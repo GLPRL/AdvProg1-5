@@ -12,11 +12,11 @@ class Client {
     string fileName;
     int k;
     vector <TypeVector> tv;
-    vector <double> v;
+    vector <vector<double>> v;
     map<string, int> names;
     int vSize;
 public:         //constr, getters, setters
-    Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv, const vector<double> &v,
+    Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv, const vector<vector<double>> &v,
                const map<string, int> &names, int vSize);
 
     const string &getAlg() const;
@@ -35,9 +35,9 @@ public:         //constr, getters, setters
 
     void setTv(const vector<TypeVector> &tv);
 
-    const vector<double> &getV() const;
+    const vector<vector<double>> &getV() const;
 
-    void setV(const vector<double> &v);
+    void setV(const vector<vector<double>> &v);
 
     const map<string, int> &getNames() const;
 

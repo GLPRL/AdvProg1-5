@@ -13,6 +13,7 @@ public:
         }
         //classify in thread? it's runMain function
         //detach from thread
+        //TODO: runMain on the vectors from the user object Client, after all vectors were loaded
         string s = runMain(this->getCd()->getAlg(), this->getCd()->getTv(), this->getCd()->getV(),
                 this->getCd()->getK(), this->getCd()->getNames(), this->getCd()->getVSize());
         cout << s << endl;
