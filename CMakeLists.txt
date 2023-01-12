@@ -8,4 +8,4 @@ add_executable(AdvProg1_4 KnnServer/MainDistance.cpp
         KnnServer/Algorithms.cpp
         KnnServer/TypeVector.h
         KnnServer/TypeVector.cpp
-        KnnServer/knnServer.cpp KnnServer/knnServer.h KnnServer/MainDistance.h KnnServer/Command/Command.h KnnServer/IO/DefaultIO.h KnnServer/IO/StandardIO.cpp KnnServer/IO/StandardIO.h KnnServer/IO/SocketIO.cpp KnnServer/IO/SocketIO.h KnnServer/Command/ClassifyData.cpp KnnServer/Client.cpp KnnServer/Client.h)
+        KnnServer/knnServer.cpp KnnServer/knnServer.h KnnServer/MainDistance.h KnnServer/Command/Command.h KnnServer/IO/DefaultIO.h KnnServer/IO/StandardIO.cpp KnnServer/IO/StandardIO.h KnnServer/IO/SocketIO.cpp KnnServer/IO/SocketIO.h KnnServer/Command/ClassifyData.cpp KnnServer/Client.cpp KnnServer/Client.h KnnServer/CLI.cpp KnnServer/CLI.h)

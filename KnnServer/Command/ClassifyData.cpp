@@ -17,5 +17,5 @@ public:
                 this->getCd()->getK(), this->getCd()->getNames(), this->getCd()->getVSize());
         cout << s << endl;
     }
-    ClassifyData(DefaultIO *io, ClientData *cd) : Command<T>("classify data", io, cd){}
+    ClassifyData(DefaultIO *io, Client *cd) : Command<T>("classify data", io, cd){}
 };

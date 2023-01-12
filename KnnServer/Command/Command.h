@@ -6,14 +6,14 @@ using namespace std;
 #include <string>
 #include "../IO/DefaultIO.h"
 #include "../Client.h"
-
+#include "../Client.h"
 template <class T>
 class Command {
 
 private:
         string desc;        //desc. of the command
         DefaultIO *io;      //method of input/output
-        ClientData *cd;     //contains data essential for classification
+        Client *cd;     //contains data essential for classification
 public:
     virtual void execute() = 0;
     string getDesc() {
@@ -28,7 +28,7 @@ public:
         Command::io = io;
     }
 
-    void setCd(ClientData *cd) {
+    void setCd(Client *cd) {
         Command::cd = cd;
     }
 
@@ -36,14 +36,14 @@ public:
         return io;
     }
 
-    ClientData *getCd() const {
+    Client *getCd() const {
         return cd;
     }
 
     DefaultIO* getIO() {
         return this->io;
     }
-    Command (string desc, DefaultIO* io, ClientData clientData) {
+    Command (string desc, DefaultIO* io, Client clientData) {
         this->desc = desc;
         this->io = io;
         this->cd = clientData;

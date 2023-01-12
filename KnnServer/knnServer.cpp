@@ -56,6 +56,16 @@ int getPort(string port) {
     return serverPort;
 }
 /**
+ * Handle a single client in thread.
+ * @param client_sock
+ */
+void handleClient(int client_sock, map<string, int> names) {
+
+    //TODO: run the CLI
+
+    close(client_sock);
+}
+/**
  * KNN Server.
  * @param argc count of command line args
  * @param argv command line args:
@@ -91,58 +101,74 @@ int main(int argc, char *argv[]) {
     string fileName = argv[1];
     vector<TypeVector> v = readData(vSize, fileName);
     map<string, int> names = getAllNames(v);
-    while (true) {                                                                       //Listen loop: for client input
+    while (true) {
         if (listen(sock, 5) < 0) {
             perror("Error listening to a socket");
+            }
+            struct sockaddr_in client_sin;
+            unsigned int addr_len = sizeof(client_sin);
+        int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
+        if (client_sock < 0) {                  //failed accepting new connection
+            break;
         }
-        struct sockaddr_in client_sin;
-        unsigned int addr_len = sizeof(client_sin);
-        int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);     //Accept new connection
-        if (client_sock < 0) {
-            perror("Error accepting client");
-        }
-        char buffer[2048];
-        memset(&buffer, 0, sizeof(buffer));
-        int expected_data_len = sizeof(buffer);
-        while (true){
-            char outBuffer[2048];
-            memset(&outBuffer, 0, sizeof(outBuffer));
-            int read_bytes = recv(client_sock, buffer, expected_data_len, 0);            //Receive data
-            if (read_bytes < 0) {
-                perror("Error reading from client");
-                continue;
-            }
-            vector<double> numVector;
-            string distanceType;
-            int k;
-            if (buffer[0] == '-' && buffer[1] == '1' && buffer[3] == '\0') {                    //If received end signal
-                close(client_sock);
-                memset(&outBuffer, 0, sizeof(outBuffer));
-                break;
-            }
-            extract(buffer,k,distanceType,numVector);                         //Extract the data from buffer
-            memset(&buffer, 0, sizeof(buffer));
-            cout<<"------"<<endl;
-            for(int i=0;i<numVector.size();i++){
-                cout<<numVector[i]<<endl;
-            }
-            cout<<distanceType<<endl;
-            cout << k << endl;
-            cout<<"------"<<endl;
-            string result = runMain (distanceType, v, numVector, k, names, vSize);
-            int resSize = result.length();                              //Read continuous data from client and send back
-            read_bytes = resSize;
-           memset(&outBuffer, 0, sizeof(outBuffer));                                        //Purge out buffer
-            for (int i = 0; i < resSize; i++)
-                outBuffer[i] = result[i];
-            outBuffer[resSize]='\0';
-            expected_data_len = sizeof(buffer);
-            int sent_bytes = send(client_sock, outBuffer, read_bytes, 0);     //Send data back to client
-            if (sent_bytes < 0) {
-                perror("error sending to client");
-            }
-            memset(&outBuffer, 0, sizeof(outBuffer));                                        //Purge out buffer
-            expected_data_len = sizeof(buffer);                                                       //Prep for receive
-        }
+        //TODO: Thread to handle client
+        handleClient(client_sock, names);
+        //TODO: detach from thread
+
     }
+    //while (true) {                                                                       //Listen loop: for client input
+    //    if (listen(sock, 5) < 0) {
+    //        perror("Error listening to a socket");
+    //    }
+    //    struct sockaddr_in client_sin;
+    //    unsigned int addr_len = sizeof(client_sin);
+    //    int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);     //Accept new connection
+    //    if (client_sock < 0) {
+    //        perror("Error accepting client");
+    //    }
+    //    char buffer[2048];
+    //    memset(&buffer, 0, sizeof(buffer));
+    //    int expected_data_len = sizeof(buffer);
+    //    while (true){
+    //        char outBuffer[2048];
+    //        memset(&outBuffer, 0, sizeof(outBuffer));
+    //        int read_bytes = recv(client_sock, buffer, expected_data_len, 0);            //Receive data
+    //        if (read_bytes < 0) {
+    //            perror("Error reading from client");
+    //            continue;
+    //        }
+    //        vector<double> numVector;
+    //        string distanceType;
+    //        int k;
+    //        if (buffer[0] == '-' && buffer[1] == '1' && buffer[3] == '\0') {                    //If received end signal
+    //            close(client_sock);
+    //            memset(&outBuffer, 0, sizeof(outBuffer));
+    //            break;
+    //        }
+    //        extract(buffer,k,distanceType,numVector);                         //Extract the data from buffer
+    //        memset(&buffer, 0, sizeof(buffer));
+    //        cout<<"------"<<endl;
+    //        for(int i=0;i<numVector.size();i++){
+    //            cout<<numVector[i]<<endl;
+    //        }
+    //        cout<<distanceType<<endl;
+    //        cout << k << endl;
+    //        cout<<"------"<<endl;
+    //        string result = runMain (distanceType, v, numVector, k, names, vSize);
+    //        int resSize = result.length();                              //Read continuous data from client and send back
+    //        read_bytes = resSize;
+    //       memset(&outBuffer, 0, sizeof(outBuffer));                                        //Purge out buffer
+    //        for (int i = 0; i < resSize; i++)
+    //            outBuffer[i] = result[i];
+    //        outBuffer[resSize]='\0';
+    //        expected_data_len = sizeof(buffer);
+    //        int sent_bytes = send(client_sock, outBuffer, read_bytes, 0);     //Send data back to client
+    //        if (sent_bytes < 0) {
+    //            perror("error sending to client");
+    //        }
+    //        memset(&outBuffer, 0, sizeof(outBuffer));                                        //Purge out buffer
+    //        expected_data_len = sizeof(buffer);                                                       //Prep for receive
+    //    }
+    //}
+
 }

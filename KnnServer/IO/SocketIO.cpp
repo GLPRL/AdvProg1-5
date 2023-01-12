@@ -1,20 +1,20 @@
 #include "../knnServer.h"
 #include "SocketIO.h"
-
+//TODO: read any data: options and lines
 string SocketIO::read() {
     string msg;
     string ending = "\0";
     //Read until ending is detected
-    char buffer[1];
-    while (!equal(ending.rbegin(), ending.rend(), msg.rbegin())) {
-        buffer[0] = 0;
-        ssize_t read_bytes = recv(this->sock, buffer, 1, 0);
-        if (read_bytes < 0) {
-            perror("error writing to sock");
-        }
-        msg.append(buffer);
+    char buffer[2048];
+    ssize_t read_bytes;
+    buffer[0] = 0;
+    read_bytes = recv(this->sock, buffer, sizeof(buffer), 0);
+    if (read_bytes < 0) {
+        perror("error receiving from client");
     }
-    return msg.substr(0, msg.length() - 5);
+    msg.append(buffer);
+    msg.append(ending);
+    return msg;
 }
 void SocketIO::write(string s) {
     std::string msg = s + "\0";
