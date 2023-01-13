@@ -13,11 +13,10 @@ using namespace std;
 #include <arpa/inet.h>
 #include <unistd.h>
 class Command {
-
 private:
         string desc;        //desc. of the command
         DefaultIO *io;      //method of input/output
-        Client *cd;     //contains data essential for classification
+        Client *cd;         //contains data essential for classification
 public:
     virtual void execute() {}
     string getDesc() {

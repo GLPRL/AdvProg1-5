@@ -7,18 +7,23 @@ using namespace std;
 #include "iostream"
 #include "IO/DefaultIO.h"
 #include "Command/Command.h"
-const char* menu = "Welcome to the KNN Classifier Server. Please choose an option: \n"
+#include "Command/ClassifyData.cpp"
+const string menu = "Welcome to the KNN Classifier Server. Please choose an option: \n"
                    "1. upload an unclassified csv data file\n"
                    "2. algorithm settings\n"
                    "3. classify data\n"
                    "4. display results\n"
                    "5. download results\n"
-                   "8. exit\0";
+                   "8. exit";
 class CLI {
     DefaultIO *io;
-    map<int, Command> options;
+    map<int, Command*> options;
 public:
-    CLI(DefaultIO *io, const map<int, Command> &options) : io(io), options(options) {}
+    CLI(DefaultIO *io, map<int, Command*> options) {
+        this->io = io;
+        this->options = options;
+    }
+
     void run() {
         while (true) {
             io->write(menu);                               //Print menu
@@ -38,7 +43,7 @@ public:
                 cout << "exit" << endl;
                 break;
             }
-            options.at(optNum).execute();
+            options.at(optNum)->execute();
         }
     }
 };

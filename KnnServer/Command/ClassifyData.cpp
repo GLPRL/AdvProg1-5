@@ -2,7 +2,7 @@
 #include "thread"
 #include "iostream"
 #include "../MainDistance.h"
-#include "string.h"
+
 
 class ClassifyData : public Command {
 public:
