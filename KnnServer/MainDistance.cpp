@@ -103,6 +103,7 @@ string runMain(string alg, vector<TypeVector> tv, vector<TypeVector> v, int k, m
             v[i].calculateDistance(tv[j].getVector(), alg);            //Calc. distance according to user
         }
         result = knnAlgo(v, k, names);        //Checking which vectors from csv are closest to user's vector.
+        cout << result << endl;
         v[j].setType(result);                            //For each TypeVector, assign its type
     }
     return "classifying data complete";

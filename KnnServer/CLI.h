@@ -13,8 +13,7 @@ const char* menu = "Welcome to the KNN Classifier Server. Please choose an optio
                    "3. classify data\n"
                    "4. display results\n"
                    "5. download results\n"
-                   "8. exit\n";
-template <class T>
+                   "8. exit\0";
 class CLI {
     DefaultIO *io;
     map<int, Command> options;
@@ -22,7 +21,7 @@ public:
     CLI(DefaultIO *io, const map<int, Command> &options) : io(io), options(options) {}
     void run() {
         while (true) {
-            cout << menu;                               //Print menu
+            io->write(menu);                               //Print menu
             string option = io->read();
             int optNum;
             try {

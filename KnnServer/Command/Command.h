@@ -23,7 +23,11 @@ public:
     string getDesc() {
         return this->desc;
     }
-
+    Command (string desc, DefaultIO* io, Client *clientData) {
+        this->desc = desc;
+        this->io = io;
+        this->cd = clientData;
+    }
     void setDesc(const string desc) {
         this->desc = desc;
     }
@@ -46,11 +50,6 @@ public:
 
     DefaultIO* getIO() {
         return this->io;
-    }
-    Command (string desc, DefaultIO* io, Client *clientData) {
-        this->desc = desc;
-        this->io = io;
-        this->cd = clientData;
     }
 };
 #endif //ADVPROG1_5_COMMAND_H

@@ -67,8 +67,12 @@ void handleClient(int client_sock, map<string, int> names, vector<TypeVector> v)
     cd.setNames(names);
     cd.setClientSock(client_sock);
     cd.setVSize(v[0].getVector().size());
+    Command ClassifyData("ClassifyData", &io, &cd);
     map<int, Command> options;
+    options.insert({3, ClassifyData});
 
+    CLI CLI(&io, options);
+    CLI.run();
     close(client_sock);
 }
 /**

@@ -7,16 +7,16 @@
 class ClassifyData : public Command {
 public:
     void execute() override {
-        if (this->getCd().getFileName().empty()) {             //If there's no file
-            this->getIO()->write("Please upload data");
-            return;
-        }
+        //if (this->getCd().getFileName().empty()) {             //If there's no file
+        //    this->getIO()->write("Please upload data");
+        //    return;
+        //}
         //classify in thread? it's runMain function
         //detach from thread
         //TODO: runMain on the vectors from the user object Client, after all vectors were loaded
         //TODO: receive data in loop. each vector will be received and processed, then inserted into v;
         char buffer[2048];
-        int expected_data_len = sizeof(buffer);
+        //int expected_data_len = sizeof(buffer);
         //while(true) {
         //    memset(&buffer, 0, sizeof(buffer));
         //    int read_bytes = recv(this->getCd().getClientSock(), buffer, expected_data_len, 0);        //Receive data
