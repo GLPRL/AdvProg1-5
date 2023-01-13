@@ -23,7 +23,7 @@ int readVector(string &distanceType, int &k,vector<double> &v,char c[] ) {
         return 0;
     }
     lin = ' ' + lin + " ";
-                                            // If there is more than one space in a row, then return and allow re-entry
+    // If there is more than one space in a row, then return and allow re-entry
     if (lin.find("  ") != string::npos) {
         return -1;
     }
@@ -136,6 +136,7 @@ int main(int argc, char* argv[]) {
         char buffer[2048];                                                       //Clearing space for answer from server
         int expected_data_len = sizeof(buffer);
         int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
+        buffer[read_bytes]='\0';
         if (read_bytes < 0) {                                                                                 //If error
             perror("Error reading data from server");
         } else if(read_bytes!=0) {
@@ -144,9 +145,7 @@ int main(int argc, char* argv[]) {
         memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
         char data_addr[2048];
         memset(&data_addr, 0, sizeof(data_addr));                                           //Purge send buffer
-        string s;
-        int p;
-        vector<double> v;
+        cin >> data_addr;
         int data_len = strlen(data_addr);
         int sent_bytes = send(sock, data_addr, data_len, 0);                             //Sending data
         if (sent_bytes < 0) {
