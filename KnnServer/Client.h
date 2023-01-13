@@ -6,45 +6,41 @@ using namespace std;
 #include <map>
 #include "string"
 #include "TypeVector.h"
-
+#include <sys/socket.h>
+#include <stdio.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 class Client {
-    string alg;
-    string fileName;
-    int k;
-    vector <TypeVector> tv;
-    vector <vector<double>> v;
-    map<string, int> names;
+private:
+    int client_sock;        //Client socket
+    string alg;             //Client's algorithm
+    string fileName;        //Client's file
+    int k;                  //Num of neighbors
+    vector <TypeVector> tv; //known vectors
+    vector <TypeVector> v;  //vectors to classify
+    map<string, int> names; //names of types
     int vSize;
-public:         //constr, getters, setters
-    Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv, const vector<vector<double>> &v,
+public:
+    Client();
+
+    Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv, const vector<TypeVector> &v,
                const map<string, int> &names, int vSize);
-
+    int getClientSock() const;
+    void setClientSock(int clientSock);
     const string &getAlg() const;
-
     void setAlg(const string &alg);
-
     const string &getFileName() const;
-
     void setFileName(const string &fileName);
-
     int getK() const;
-
     void setK(int k);
-
     const vector<TypeVector> &getTv() const;
-
     void setTv(const vector<TypeVector> &tv);
-
-    const vector<vector<double>> &getV() const;
-
-    void setV(const vector<vector<double>> &v);
-
+    const vector<TypeVector> &getV() const;
+    void setV(const vector<TypeVector> &v);
     const map<string, int> &getNames() const;
-
     void setNames(const map<string, int> &names);
-
     int getVSize() const;
-
     void setVSize(int vSize);
 };
 #endif //ADVPROG1_4_CLIENT_H

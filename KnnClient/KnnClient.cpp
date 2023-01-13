@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h>
 #include <string.h>
 #include <vector>
 using namespace std;
@@ -133,23 +132,7 @@ int main(int argc, char* argv[]) {
     if (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {                   //Connected to server
         perror("Error connecting to server");
     }
-    while (true) {                                                                                      //Send data loop
-        char data_addr[2048];
-        memset(&data_addr, 0, sizeof(data_addr));                                           //Purge send buffer
-        string s;
-        int p;
-        vector<double> v;
-        int result = readVector( s, p, v,data_addr);
-        if (result == -1) {                                                                           //Is invalid input
-            cout << "invalid input" << endl;
-           continue;
-        }
-        int data_len = strlen(data_addr);
-        int sent_bytes = send(sock, data_addr, data_len, 0);                             //Sending data
-        if (sent_bytes < 0) {
-            perror("Error sending data to server\n");
-            return 1;
-        }
+    while (true) {
         char buffer[2048];                                                       //Clearing space for answer from server
         int expected_data_len = sizeof(buffer);
         int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
@@ -158,12 +141,18 @@ int main(int argc, char* argv[]) {
         } else if(read_bytes!=0) {
             cout << buffer << endl;                                                                       //Print result
         }
-
-        if(result==0){                                                                               // if -1 then close
-            close(sock);
-            exit(0);
-        }
         memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
+        char data_addr[2048];
+        memset(&data_addr, 0, sizeof(data_addr));                                           //Purge send buffer
+        string s;
+        int p;
+        vector<double> v;
+        int data_len = strlen(data_addr);
+        int sent_bytes = send(sock, data_addr, data_len, 0);                             //Sending data
+        if (sent_bytes < 0) {
+            perror("Error sending data to server\n");
+            return 1;
+        }
         continue;
     }
 }

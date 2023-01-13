@@ -27,6 +27,11 @@ using namespace std;
         }
 
     }
+TypeVector::TypeVector() {
+        this->v;
+        this->type;
+        this->distance;
+    }
 /**
  * Constructor
  * @param v numbers vector
@@ -65,3 +70,11 @@ TypeVector::TypeVector(vector<double> v, string type) {
     bool  TypeVector::operator<(TypeVector v) const {
         return distance < v.getDistance();
     }
+
+void TypeVector::setType(const string &type) {
+    TypeVector::type = type;
+}
+
+void TypeVector::setV(const vector<double> &v) {
+    TypeVector::v = v;
+}

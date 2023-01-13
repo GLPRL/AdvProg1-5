@@ -83,13 +83,14 @@ vector <TypeVector> readData(int &vsize, string filename) {
  * Function to run knnAlgo and verify correctness of vector sizes.
  * Running the main requirements for our KNN algorithm to function properly.
  * @param alg algorithm to use
- * @param tv TypeVectors vector to calculate their distance from v
- * @param v vector of attributes
+ * @param tv TypeVectors vector from known types file
+ * @param v vectors of type double to determine their types
  * @param k k closest neighbor, used for KnnAlgo function
  * @param names map of names and amount of appearances to update in KnnAlgo
  * @return code 0 if works as expected.
 **/
-string runMain(string alg, vector<TypeVector> tv, vector<double> v, int k, map<string, int> names, int vSize) {
+string runMain(string alg, vector<TypeVector> tv, vector<TypeVector> v, int k, map<string, int> names, int vSize) {
+    string result;
     int size = tv.size();
     if (vSize != v.size()) {
         return "invalid input";
@@ -97,9 +98,13 @@ string runMain(string alg, vector<TypeVector> tv, vector<double> v, int k, map<s
     if (k > tv.size()) {                                             //If K is bigger than the amount of vectors in file
         return "invalid input";
     }
-    for (int i = 0; i < size; i++) {
-        tv[i].calculateDistance(v, alg);                               //Calc. distance according to user
+    for (int j = 0; j < v.size(); j++) {
+        for (int i = 0; i < size; i++) {
+            v[i].calculateDistance(tv[j].getVector(), alg);            //Calc. distance according to user
+        }
+        result = knnAlgo(v, k, names);        //Checking which vectors from csv are closest to user's vector.
+        cout << result << endl;
+        v[j].setType(result);                            //For each TypeVector, assign its type
     }
-    string result = knnAlgo(tv, k, names);     //Checking which vectors from csv are closest to user's vector.
-    return result;
+    return "classifying data complete";
 }

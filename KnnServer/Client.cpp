@@ -1,14 +1,10 @@
-//
-// Created by gp on 1/11/23.
-//
 
 #include "Client.h"
+Client::Client() {};
 
 Client::Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv,
-                       const vector<vector<double>> &v, const map<string, int> &names, int vSize) : alg(alg),
-                                                                                            fileName(fileName), k(k),
-                                                                                            tv(tv), v(v), names(names),
-                                                                                            vSize(vSize) {}
+                       const vector<TypeVector> &v, const map<string, int> &names, int vSize) : alg(alg),
+
 
 const string &Client::getAlg() const {
     return alg;
@@ -42,11 +38,11 @@ void Client::setTv(const vector<TypeVector> &tv) {
     Client::tv = tv;
 }
 
-const vector<vector<double>> &Client::getV() const {
+const vector<TypeVector> &Client::getV() const {
     return v;
 }
 
-void Client::setV(const vector<vector<double>> &v) {
+void Client::setV(const vector<TypeVector> &v) {
     Client::v = v;
 }
 
@@ -65,4 +61,13 @@ int Client::getVSize() const {
 void Client::setVSize(int vSize) {
     Client::vSize = vSize;
 }
+
+int Client::getClientSock() const {
+    return client_sock;
+}
+
+void Client::setClientSock(int clientSock) {
+    client_sock = clientSock;
+}
+
 

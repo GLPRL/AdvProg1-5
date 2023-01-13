@@ -1,5 +1,6 @@
 #include "knnServer.h"
 #include "MainDistance.h"
+//#include "Command/ClassifyData.cpp"
 /**
  * Extracts relevant information from message received from the client.(from char[] c).
  * Seprates the info to number vector, distanceType and k.
@@ -57,12 +58,20 @@ int getPort(string port) {
 }
 /**
  * Handle a single client in thread.
- * @param client_sock
+ * @param client_sock client
  */
-void handleClient(int client_sock, map<string, int> names) {
-
-    //TODO: run the CLI
-
+void handleClient(int client_sock, map<string, int> names, vector<TypeVector> v) {
+    Client cd;
+    SocketIO io(client_sock);
+    cd.setTv(v);
+    cd.setNames(names);
+    cd.setClientSock(client_sock);
+    cd.setVSize(v[0].getVector().size());
+    ClassifyData classifyData(&io, &cd);
+    map<int, Command*> options;
+    options.insert({3, &classifyData});
+    CLI CLI(&io, options);
+    CLI.run();
     close(client_sock);
 }
 /**
@@ -99,8 +108,8 @@ int main(int argc, char *argv[]) {
     }
     int vSize = -1;
     string fileName = argv[1];
-    vector<TypeVector> v = readData(vSize, fileName);
-    map<string, int> names = getAllNames(v);
+    vector<TypeVector> v = readData(vSize, fileName);           //TODO: move it. each client will have file
+    map<string, int> names = getAllNames(v);                            //TODO: move it. each client will have file
     while (true) {
         if (listen(sock, 5) < 0) {
             perror("Error listening to a socket");
@@ -112,9 +121,8 @@ int main(int argc, char *argv[]) {
             break;
         }
         //TODO: Thread to handle client
-        handleClient(client_sock, names);
+        handleClient(client_sock, names, v);
         //TODO: detach from thread
-
     }
     //while (true) {                                                                       //Listen loop: for client input
     //    if (listen(sock, 5) < 0) {

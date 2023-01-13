@@ -13,5 +13,10 @@
 #include <vector>
 #include "Algorithms.h"
 #include "MainDistance.h"
+#include "Client.h"
+#include "CLI.h"
+#include "IO/SocketIO.h"
+#include "IO/StandardIO.h"
+#include "Command/Command.h"
 using namespace std;
 #endif //ADVPROG1_4_KNNSERVER_H
