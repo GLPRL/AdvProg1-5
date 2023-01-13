@@ -3,7 +3,6 @@
 #include "iostream"
 #include "../MainDistance.h"
 
-
 class ClassifyData : public Command {
 public:
     void execute() override {

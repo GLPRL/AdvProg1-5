@@ -29,5 +29,7 @@ Command.o: Command/Command.h Command/ClassifyData.cpp
 CLI.o:
 	$(CC) $(CFLAGS) -c CLI.h
 
+#need to compile/link the IO and Command dirs too
+
 clean:
 	rm -f *.o server.out

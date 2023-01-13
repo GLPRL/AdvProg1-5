@@ -4,9 +4,7 @@ Client::Client() {};
 
 Client::Client(const string &alg, const string &fileName, int k, const vector<TypeVector> &tv,
                        const vector<TypeVector> &v, const map<string, int> &names, int vSize) : alg(alg),
-                                                                                            fileName(fileName), k(k),
-                                                                                            tv(tv), v(v), names(names),
-                                                                                            vSize(vSize) {}
+
 
 const string &Client::getAlg() const {
     return alg;
@@ -71,4 +69,5 @@ int Client::getClientSock() const {
 void Client::setClientSock(int clientSock) {
     client_sock = clientSock;
 }
+
 

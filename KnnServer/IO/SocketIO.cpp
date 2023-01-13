@@ -1,3 +1,4 @@
+
 #include "SocketIO.h"
 //TODO: read any data: options and lines
 string SocketIO::read() {
