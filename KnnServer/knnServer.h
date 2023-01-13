@@ -18,5 +18,6 @@
 #include "IO/SocketIO.h"
 #include "IO/StandardIO.h"
 #include "Command/Command.h"
+#include "Command/UploadData.cpp"
 using namespace std;
 #endif //ADVPROG1_4_KNNSERVER_H

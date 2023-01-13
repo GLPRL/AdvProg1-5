@@ -4,6 +4,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <fstream>
+#include <sstream>
 #include <vector>
 using namespace std;
 /**
@@ -99,6 +101,25 @@ int getPort(string port) {
     }
     return serverPort;
 }
+void readData(int sock, string filename) {
+    ifstream fin;
+    char buffer[4096];
+    memset(&buffer, 0, sizeof(buffer));
+    string line, word;
+    //we need to select the algorithm according to string.
+    vector <string> row;                                                                                  //Name of type
+    fin.open(filename, ios::in);
+    if (fin.is_open()) {
+        while (getline(fin, line)) {                                                 //Read from file and process.
+            cout << line << endl;
+        }
+    } else {
+        perror("No such file or directory");
+        exit(-1);
+    }
+    fin.close();
+    // /home/gp/Desktop/C++/AdvProg1-5/iris_classified.csv
+}
 /**
  * KNN client
  * @param argc command line args
@@ -133,7 +154,7 @@ int main(int argc, char* argv[]) {
         perror("Error connecting to server");
     }
     while (true) {
-        char buffer[2048];                                                       //Clearing space for answer from server
+        char buffer[4096];                                                       //Clearing space for answer from server
         int expected_data_len = sizeof(buffer);
         int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
         buffer[read_bytes]='\0';
@@ -143,7 +164,7 @@ int main(int argc, char* argv[]) {
             cout << buffer << endl;                                                                       //Print result
         }
         memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
-        char data_addr[2048];
+        char data_addr[4096];
         memset(&data_addr, 0, sizeof(data_addr));                                           //Purge send buffer
         cin >> data_addr;
         int data_len = strlen(data_addr);
@@ -151,6 +172,20 @@ int main(int argc, char* argv[]) {
         if (sent_bytes < 0) {
             perror("Error sending data to server\n");
             return 1;
+        }
+        if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload a file
+            char buffer[4096];                                                       //Clearing space for answer from server
+            int expected_data_len = sizeof(buffer);
+            int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
+            buffer[read_bytes]='\0';
+            if (read_bytes < 0) {                                                                                 //If error
+                perror("Error reading data from server");
+            } else if(read_bytes!=0) {
+                cout << buffer << endl;                                                                       //Print result
+            }
+            string filename;
+            cin >> filename;
+            readData(sock, filename);
         }
         continue;
     }
