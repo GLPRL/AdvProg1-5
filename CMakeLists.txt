@@ -21,4 +21,5 @@ add_executable(AdvProg1-5 KnnServer/MainDistance.cpp
         KnnServer/Client.cpp
         KnnServer/Client.h
         KnnServer/CLI.h
-        KnnServer/Client.cpp)
+        KnnServer/Client.cpp
+        )
