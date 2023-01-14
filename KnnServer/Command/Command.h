@@ -4,8 +4,8 @@
 #define ADVPROG1_5_COMMAND_H
 using namespace std;
 #include <string>
+#include <string.h>
 #include "../IO/DefaultIO.h"
-#include "../Client.h"
 #include "../Client.h"
 #include <sys/socket.h>
 #include <stdio.h>
@@ -43,8 +43,8 @@ public:
         return io;
     }
 
-    Client getCd() const {
-        return *cd;
+    Client* getCd() {
+        return cd;
     }
 
     DefaultIO* getIO() {

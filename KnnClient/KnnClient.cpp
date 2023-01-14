@@ -4,8 +4,11 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <fstream>
 #include <vector>
+
 using namespace std;
+const char EOL = '$';
 /**
  * reads input from the user in accordance to exrecise instructions.
  * returns 1 if success
@@ -99,6 +102,55 @@ int getPort(string port) {
     }
     return serverPort;
 }
+void readData(int sock) {
+    char bufferFile[4096];                                                   //Clearing space for answer from server
+    int expected_data_len = sizeof(bufferFile);
+    int read_bytes = recv(sock, bufferFile, expected_data_len, 0);       //Receive from server
+    bufferFile[read_bytes]='\0';
+    if (read_bytes < 0) {                                                                             //If error
+        perror("Error reading data from server");
+    } else if (read_bytes!=0) {
+        cout << bufferFile;
+    }
+    string filename;
+    cin >> filename;
+    ifstream fin;
+    char buffer[1];
+    memset(&buffer, 0, sizeof(buffer));
+    string line;
+    int sent_bytes;
+    fin.open(filename, ios::in);
+    if (fin.is_open()) {
+        while (getline(fin, line)) {                                                 //Read from file and process.
+            int size = line.size();
+            for (int i = 0; i < size; i++) {                                            //send char by char
+                buffer[0] = line[i];
+                sent_bytes = send(sock, buffer, 1, 0);
+                if (sent_bytes < 0) {
+                    perror("Error sending data to server\n");
+                    return;
+                }
+                memset(&buffer, 0, 1);
+            }
+            buffer[0] = EOL;                        //Signal of EOL
+            sent_bytes = send(sock, buffer, 1, 0);
+            if (sent_bytes < 0) {
+                perror("Error sending data to server\n");
+                return;
+            }
+        }
+    } else {
+        perror("No such file or directory");
+        return;
+    }
+    buffer[0] = '>';
+    sent_bytes = send(sock, buffer, 1, 0);
+    if (sent_bytes < 0) {
+        perror("Error sending data to server\n");
+        return;
+    }
+    fin.close();
+}
 /**
  * KNN client
  * @param argc command line args
@@ -133,7 +185,7 @@ int main(int argc, char* argv[]) {
         perror("Error connecting to server");
     }
     while (true) {
-        char buffer[2048];                                                       //Clearing space for answer from server
+        char buffer[4096];                                                       //Clearing space for answer from server
         int expected_data_len = sizeof(buffer);
         int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
         buffer[read_bytes]='\0';
@@ -143,14 +195,17 @@ int main(int argc, char* argv[]) {
             cout << buffer << endl;                                                                       //Print result
         }
         memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
-        char data_addr[2048];
+        char data_addr[1];
         memset(&data_addr, 0, sizeof(data_addr));                                           //Purge send buffer
         cin >> data_addr;
-        int data_len = strlen(data_addr);
-        int sent_bytes = send(sock, data_addr, data_len, 0);                             //Sending data
+        int sent_bytes = send(sock, data_addr, 1, 0);                             //Sending data
         if (sent_bytes < 0) {
             perror("Error sending data to server\n");
             return 1;
+        }
+        if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
+            readData(sock);                               //upload training file
+            readData(sock);                               //upload testing file
         }
         continue;
     }

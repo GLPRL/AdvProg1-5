@@ -36,16 +36,16 @@ const vector<TypeVector> &Client::getTv() const {
     return tv;
 }
 
-void Client::setTv(const vector<TypeVector> &tv) {
-    Client::tv = tv;
+void Client::setTv(const vector<TypeVector> *tv) {
+    Client::tv = *tv;
 }
 
 const vector<TypeVector> &Client::getV() const {
     return v;
 }
 
-void Client::setV(const vector<TypeVector> &v) {
-    Client::v = v;
+void Client::setV(const vector<TypeVector> *v) {
+    Client::v = *v;
 }
 
 const map<string, int> &Client::getNames() const {
