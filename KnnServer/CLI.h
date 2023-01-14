@@ -28,7 +28,6 @@ public:
 
     void run() {
         while (true) {
-            cout << this->options.at(3)->getCd()->getV().size() << endl;
             io->write(menu);                               //Print menu
             string option = io->read();
             int optNum;
