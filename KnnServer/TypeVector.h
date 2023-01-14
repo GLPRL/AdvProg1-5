@@ -18,6 +18,6 @@ public:
     bool operator<(TypeVector v)const;
     void setV(const vector<double> &v);
     double getDistance();
-    void setType(const string &type);
+    void setType(string type);
 };
 #endif //ADVPROG1_2_TYPEVECTOR_H

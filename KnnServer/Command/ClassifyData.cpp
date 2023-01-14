@@ -14,9 +14,15 @@ public:
             cout << "please upload data" << endl;
             return;
         }
-        string s = runMain(this->getCd()->getAlg(), this->getCd()->getTv(), this->getCd()->getV(),
-                           this->getCd()->getK(), this->getCd()->getNames(), this->getCd()->getVSize());
-        cout << s << endl;
+        int i;
+        for (i = 0; i < this->getCd()->getV().size(); i++) {                    //Classifies each vector
+            string s = runMain(this->getCd()->getAlg(), this->getCd()->getTv(), this->getCd()->getV()[i],
+                               this->getCd()->getK(), this->getCd()->getNames(), this->getCd()->getVSize());
+            if (s == "invalid input") {             //if vectors aren't compliant
+                cout << s << endl;
+                return;
+            }
+        }
     }
     ClassifyData(DefaultIO *io, Client *cd) : Command("classify data", io, cd) {}
 };
