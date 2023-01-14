@@ -43,8 +43,8 @@ public:
         return io;
     }
 
-    Client getCd() {
-        return *cd;
+    Client* getCd() {
+        return cd;
     }
 
     DefaultIO* getIO() {

@@ -44,8 +44,8 @@ const vector<TypeVector> &Client::getV() const {
     return v;
 }
 
-void Client::setV(const vector<TypeVector> &v) {
-    Client::v = v;
+void Client::setV(const vector<TypeVector> *v) {
+    Client::v = *v;
 }
 
 const map<string, int> &Client::getNames() const {

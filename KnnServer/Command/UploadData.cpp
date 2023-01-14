@@ -9,12 +9,12 @@ const string s2 = "Please upload your local test CSV file.";
 class UploadData : public Command {
 public:
     void execute() override {
-        this->getIO()->write(s1);
         //get the known types vectors
+        this->getIO()->write(s1);
+        //get the new vectors to classifyd
         this->getIO()->write(s2);
         string num;
         vector<TypeVector> temp;
-        this->getCd().setV(temp);
         char v[1];                          //copy from vtemp
         string vtemp;                       //receive from read()
         while (true) {                      //run over the lines
@@ -44,7 +44,7 @@ public:
             TypeVector tv = TypeVector(vNum, "");
             temp.push_back(tv);
         }
-        this->getCd().setV(temp);
+        this->getCd()->setV(&temp);
         //cout << this->getCd().getV().size() << endl;
     }
     UploadData(DefaultIO *io, Client *cd) : Command("upload data", io, cd) {}

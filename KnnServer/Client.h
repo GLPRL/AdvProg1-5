@@ -37,7 +37,7 @@ public:
     const vector<TypeVector> &getTv() const;
     void setTv(const vector<TypeVector> &tv);
     const vector<TypeVector> &getV() const;
-    void setV(const vector<TypeVector> &v);
+    void setV(const vector<TypeVector> *v);
     const map<string, int> &getNames() const;
     void setNames(const map<string, int> &names);
     int getVSize() const;
