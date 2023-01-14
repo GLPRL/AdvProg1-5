@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -std=c++11
 
 server.out: knnServer.o Algorithms.o MainDistance.o TypeVector.o InOut.o Client.o CLI.o Command.o
-	$(CC) $(CFLAGS) knnServer.o Algorithms.o MainDistance.o TypeVector.o SocketIO.o StandardIO.o Client.o CLI.h ClassifyData.o Upload.Data.o -o server.out
+	$(CC) $(CFLAGS) knnServer.o Algorithms.o MainDistance.o TypeVector.o SocketIO.o StandardIO.o Client.o CLI.h ClassifyData.o UploadData.o -o server.out
 
 knnServer.o: knnServer.cpp knnServer.h
 	$(CC) $(CFLAGS) -c knnServer.cpp
