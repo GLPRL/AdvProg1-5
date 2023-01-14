@@ -83,16 +83,16 @@ vector <TypeVector> readData(int &vsize, string filename) {
  * Function to run knnAlgo and verify correctness of vector sizes.
  * Running the main requirements for our KNN algorithm to function properly.
  * @param alg algorithm to use
- * @param tv TypeVectors vector from known types file
- * @param v vectors of type double to determine their types
+ * @param tv classified vectors
+ * @param v vectors to classify
  * @param k k closest neighbor, used for KnnAlgo function
  * @param names map of names and amount of appearances to update in KnnAlgo
  * @return code 0 if works as expected.
 **/
 string runMain(string alg, vector<TypeVector> tv, vector<TypeVector> v, int k, map<string, int> names, int vSize) {
     string result;
-    int size = tv.size();
-    if (vSize != v.size()) {
+    int size = tv[0].getVector().size();
+    if (vSize != v[0].getVector().size()) {
         return "invalid input";
     }
     if (k > tv.size()) {                                             //If K is bigger than the amount of vectors in file

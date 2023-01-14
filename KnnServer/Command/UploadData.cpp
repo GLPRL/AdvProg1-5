@@ -44,6 +44,7 @@ public:
             TypeVector tv = TypeVector(vNum, s);
             temp.push_back(tv);
         }
+        this->getCd()->setVSize(temp[0].getVector().size());
         this->getCd()->setTv(&temp);
                                                 //get the new vectors to classify
         this->getIO()->write(s2);
