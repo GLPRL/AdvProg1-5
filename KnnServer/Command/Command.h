@@ -12,7 +12,9 @@ using namespace std;
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-
+#include "iostream"
+#include "string"
+#include "sstream"
 class Command {
 private:
         string desc;        //desc. of the command

@@ -14,9 +14,9 @@ using namespace std;
 class Client {
 private:
     int client_sock;        //Client socket
-    string alg;             //Client's algorithm
+    string alg="AUC";             //Client's algorithm
     string fileName;        //Client's file
-    int k;                  //Num of neighbors
+    int k=5;                  //Num of neighbors
     vector <TypeVector> tv; //known vectors
     vector <TypeVector> v;  //vectors to classify
     map<string, int> names; //names of types

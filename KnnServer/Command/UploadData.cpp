@@ -1,8 +1,5 @@
 #include "Command.h"
-#include "thread"
-#include "iostream"
-#include "string"
-#include "sstream"
+
 const string s1 = "Please upload your local train CSV file.\n";
 const string s2 = "Please upload your local test CSV file.\n";
 

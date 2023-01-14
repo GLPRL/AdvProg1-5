@@ -151,6 +151,24 @@ void readData(int sock) {
     }
     fin.close();
 }
+void option2(int sock){
+    char buff[40];
+    char c[1];
+    memset(&buff, 0, 40);
+    cin.ignore(1000, '\n');
+    cin.getline(buff,40);
+    for(int i=0;i<40;i++){
+        if(buff[i]==0){
+            c[0]='$';
+            int sent_bytes = send(sock, c, 1, 0);
+            break;
+        }
+        c[0]=buff[i];
+        int sent_bytes = send(sock, c, 1, 0);
+    }
+
+
+}
 /**
  * KNN client
  * @param argc command line args
@@ -206,6 +224,12 @@ int main(int argc, char* argv[]) {
         if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
             readData(sock);                               //upload training file
             readData(sock);                               //upload testing file
+        }
+        else if(sent_bytes == 1 && data_addr[0] == '2'){
+            option2(sock);
+        }
+        else if(sent_bytes == 1 && data_addr[0] == '8'){
+            exit(0);
         }
         continue;
     }

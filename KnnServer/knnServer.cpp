@@ -65,12 +65,13 @@ void handleClient(int client_sock) {
     Client cd;
     SocketIO io(client_sock);
     cd.setClientSock(client_sock);
-
     ClassifyData classifyData(&io, &cd);
     UploadData uploadData(&io, &cd);
+    AlgoSettings algoSettings(&io,&cd);
     map<int, Command*> options;
     options.insert({1, &uploadData});
     options.insert({3, &classifyData});
+    options.insert({2, &algoSettings});
 
     CLI CLI(&io, options);
     CLI.run();
