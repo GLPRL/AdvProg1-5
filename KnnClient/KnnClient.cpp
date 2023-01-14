@@ -6,7 +6,7 @@
 #include <string.h>
 #include <fstream>
 #include <vector>
-#include<unistd.h>
+
 using namespace std;
 const char EOL = '$';
 /**
@@ -150,7 +150,6 @@ void readData(int sock) {
         return;
     }
     fin.close();
-    // /home/gp/Desktop/iris_unclassified.csv
 }
 /**
  * KNN client

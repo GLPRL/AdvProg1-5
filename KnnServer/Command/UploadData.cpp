@@ -14,13 +14,13 @@ public:
         string num;
         string s;
         vector<TypeVector> temp;
-        char v[1];                          //copy from vtemp
-        string vtemp;                       //receive from read()
-        while (true) {                      //run over the lines
+        char v[1];                               //copy from vtemp
+        string vtemp;                            //receive from read()
+        while (true) {                           //run over the lines
             vector<double> vNum;
             vtemp = this->getIO()->read();
             v[0] = vtemp[0];
-            if (strcmp(v, ">") == 0) {          //end cond.
+            if (strcmp(v, ">") == 0) {           //end cond.
                 break;
             }
             while (strcmp(v, "$") != 0) {        //Receive a full line
@@ -49,9 +49,9 @@ public:
         this->getIO()->write(s2);
         num = "";
         vector<TypeVector> temp1;
-        memset(&v, 0, 1);                          //copy from vtemp
-        vtemp.empty();                       //receive from read()
-        while (true) {                      //run over the lines
+        memset(&v, 0, 1);              //copy from vtemp
+        vtemp.empty();                          //receive from read()
+        while (true) {                          //run over the lines
             vector<double> vNum;
             vtemp = this->getIO()->read();
             v[0] = vtemp[0];
