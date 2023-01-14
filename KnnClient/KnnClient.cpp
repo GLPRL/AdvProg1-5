@@ -9,6 +9,8 @@
 
 using namespace std;
 const char EOL = '$';
+const char ERR = '<';
+const char EF = '>';
 /**
  * reads input from the user in accordance to exrecise instructions.
  * returns 1 if success
@@ -139,11 +141,17 @@ void readData(int sock) {
                 return;
             }
         }
-    } else {
+    } else {                                                          //Failed opening file
         perror("No such file or directory");
+        buffer[0] = ERR;
+        sent_bytes = send(sock, buffer, 1, 0);
+        if (sent_bytes < 0) {
+            perror("Error sending data to server\n");
+            return;
+        }
         return;
     }
-    buffer[0] = '>';
+    buffer[0] = EF;
     sent_bytes = send(sock, buffer, 1, 0);
     if (sent_bytes < 0) {
         perror("Error sending data to server\n");

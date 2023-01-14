@@ -72,7 +72,7 @@ TypeVector::TypeVector(vector<double> v, string type) {
         return distance < v.getDistance();
     }
 
-void TypeVector::setType(const string &type) {
+void TypeVector::setType(string type) {
     TypeVector::type = type;
 }
 

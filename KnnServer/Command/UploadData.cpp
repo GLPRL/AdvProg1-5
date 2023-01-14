@@ -46,6 +46,7 @@ public:
         }
         this->getCd()->setVSize(temp[0].getVector().size());
         this->getCd()->setTv(&temp);
+        this->getCd()->setNames(getAllNames(this->getCd()->getTv()));       //Create names DB
                                                 //get the new vectors to classify
         this->getIO()->write(s2);
         num = "";

@@ -42,7 +42,6 @@ public:
                 continue;
             }
             if (optNum == 8) {
-                cout << "exit" << endl;
                 break;
             }
             options.at(optNum)->execute();
