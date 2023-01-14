@@ -17,10 +17,10 @@ public:
             vector<double> vNum;
             vtemp = this->getIO()->read();
             v[0] = vtemp[0];
-            if (v[0] != '>') {           //end cond.
+            if (v[0] != '>') {                       //end cond.
                 break;
             }
-            while (v[0] != '$') {        //Receive a full line
+            while (v[0] != '$') {                   //Receive a full line
                 num = num + v[0];                //vector represented as string
                 vtemp = this->getIO()->read();
                 v[0] = vtemp[0];
