@@ -1,19 +1,17 @@
-
 #include "SocketIO.h"
-//TODO: read any data: options and lines
+/**
+ * Read single line
+ * @return line of text
+ **/
 string SocketIO::read() {
-    string msg;
-    string ending = "\0";
-    //Read until ending is detected
-    char buffer[4096];
-    ssize_t read_bytes;
-    buffer[0] = 0;
-    read_bytes = recv(this->client_sock, buffer, sizeof(buffer), 0);
-    if (read_bytes < 0) {
-        perror("error receiving from client");
+    string msg = "";
+    char buffer[1];
+    int read_bytes = recv(this->client_sock, buffer, 1, 0);       //Receive from client
+    if (read_bytes < 0) {                                                                                     //If error
+        perror("Error reading data from server");
     }
-    msg.append(buffer);
-    msg.append(ending);
+    msg = msg + buffer[0];
+    memset(&buffer, 0, sizeof(buffer));
     return msg;
 }
 void SocketIO::write(string s) {

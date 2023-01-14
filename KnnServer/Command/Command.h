@@ -12,7 +12,6 @@ using namespace std;
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-const string sEnd = "<end>";
 class Command {
 private:
         string desc;        //desc. of the command
@@ -44,7 +43,7 @@ public:
         return io;
     }
 
-    Client getCd() const {
+    Client getCd() {
         return *cd;
     }
 

@@ -28,13 +28,14 @@ public:
 
     void run() {
         while (true) {
+            cout << this->options.at(3)->getCd().getV().size() << endl;
             io->write(menu);                               //Print menu
             string option = io->read();
             int optNum;
             try {
                 optNum = stoi(option);
             } catch (...) {                             //Could not convert to option number
-                io->write("Please enter a number");
+                io->write("Please enter a number\n");
                 continue;
             }
             if (optNum == 6 || optNum == 7 || optNum < 1 || optNum > 8) {

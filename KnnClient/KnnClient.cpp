@@ -5,7 +5,6 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <fstream>
-#include <sstream>
 #include <vector>
 using namespace std;
 /**
@@ -101,24 +100,43 @@ int getPort(string port) {
     }
     return serverPort;
 }
+/**
+ * read data from file and send to server.
+ * @param sock
+ * @param filename
+ */
 void readData(int sock, string filename) {
     ifstream fin;
     char buffer[4096];
     memset(&buffer, 0, sizeof(buffer));
-    string line, word;
-    //we need to select the algorithm according to string.
-    vector <string> row;                                                                                  //Name of type
+    string line;
     fin.open(filename, ios::in);
     if (fin.is_open()) {
         while (getline(fin, line)) {                                                 //Read from file and process.
-            cout << line << endl;
+            int size = line.size();
+            for (int i = 0; i < size; i++) {                                            //Copy to buffer
+                buffer[i] = line[i];
+            }
+            buffer[size] = '$';
+            int data_len = strlen(buffer);                      //TODO:Sending data too fast, server cant catch up
+            int sent_bytes = send(sock, buffer, data_len, 0);                            //Sending data
+            if (sent_bytes < 0) {
+                perror("Error sending data to server\n");
+                return;
+            }
+            memset(&buffer, 0, sizeof(buffer));
         }
     } else {
         perror("No such file or directory");
-        exit(-1);
+        return;
+    }
+    int sent_bytes = send(sock, "<end>", 5, 0);
+    if (sent_bytes < 0) {
+        perror("Error sending data to server\n");
+        return;
     }
     fin.close();
-    // /home/gp/Desktop/C++/AdvProg1-5/iris_classified.csv
+    // /home/gp/Desktop/iris_unclassified.csv
 }
 /**
  * KNN client
@@ -174,7 +192,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload a file
-            char buffer[4096];                                                       //Clearing space for answer from server
+            char buffer[4096];                                                   //Clearing space for answer from server
             int expected_data_len = sizeof(buffer);
             int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
             buffer[read_bytes]='\0';

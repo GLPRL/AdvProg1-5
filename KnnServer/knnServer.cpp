@@ -1,5 +1,4 @@
 #include "knnServer.h"
-#include "MainDistance.h"
 #include "Command/Command.h"
 
 /**
@@ -61,13 +60,10 @@ int getPort(string port) {
  * Handle a single client in thread.
  * @param client_sock client
  */
-void handleClient(int client_sock, map<string, int> names, vector<TypeVector> v) {
+void handleClient(int client_sock) {
     Client cd;
     SocketIO io(client_sock);
-    cd.setTv(v);
-    cd.setNames(names);
     cd.setClientSock(client_sock);
-    cd.setVSize(v[0].getVector().size());
 
     ClassifyData classifyData(&io, &cd);
     UploadData uploadData(&io, &cd);
@@ -90,11 +86,11 @@ void handleClient(int client_sock, map<string, int> names, vector<TypeVector> v)
  * @return nothing
  */
 int main(int argc, char *argv[]) {
-    if (argc != 3) {                                                                               //Arg count validation
+    if (argc != 2) {                                                                               //Arg count validation
         perror("invalid input");
         return 1;
     }
-    const int server_port = getPort(argv[2]);                                                     //Port validation
+    const int server_port = getPort(argv[1]);                                                     //Port validation
     if (server_port == -1) {
         perror("invalid input");
         return 1;
@@ -111,22 +107,18 @@ int main(int argc, char *argv[]) {
     if (bind(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {                              //Bind socket
         perror("Error binding socket");
     }
-    int vSize = -1;
-    string fileName = argv[1];
-    vector<TypeVector> v = readData(vSize, fileName);           //TODO: move it. each client will have file
-    map<string, int> names = getAllNames(v);                            //TODO: move it. each client will have file
     while (true) {
         if (listen(sock, 5) < 0) {
             perror("Error listening to a socket");
-            }
-            struct sockaddr_in client_sin;
-            unsigned int addr_len = sizeof(client_sin);
+        }
+        struct sockaddr_in client_sin;
+        unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {                  //failed accepting new connection
             break;
         }
         //TODO: Thread to handle client
-        handleClient(client_sock, names, v);
+        handleClient(client_sock);
         //TODO: detach from thread
     }
 }
