@@ -1,6 +1,7 @@
 #include "knnServer.h"
 #include "Command/Command.h"
-
+#include "thread"
+#include "Command/AlgoSettings.h"
 /**
  * Extracts relevant information from message received from the client.(from char[] c).
  * Separates the info to number vector, distanceType and k.
@@ -118,7 +119,9 @@ int main(int argc, char *argv[]) {
             break;
         }
         //TODO: Thread to handle client
-        handleClient(client_sock);
+       // std:handleClient(client_sock);
+        std::thread handleConnection(handleClient,client_sock);
+        handleConnection.detach();
         //TODO: detach from thread
     }
 }
