@@ -41,18 +41,18 @@ public:
             k = stoi(msg[0]);
         }
         catch (...) {
-            this->getIO()->write("invalid value for K");
+            this->getIO()->write("invalid value for K\n");
             kInvalid = 1;
         }
         string met = (msg[1]);
-        if(met.compare("AUC")||met.compare("MIN")||met.compare("CHB")||met.compare("CAN")||met.compare("MAN")){
+        if(met.compare("AUC")==0||met.compare("MIN")==0||met.compare("CHB")==0||met.compare("CAN")==0||met.compare("MAN")==0){
             if(!kInvalid){
                 this->getCd()->setK(k);
                 this->getCd()->setAlg(met);
             }
         }
         else{
-            this->getIO()->write("invalid value for metric");
+            this->getIO()->write("invalid value for metric\n");
             metInvalid=1;
         }
     }
