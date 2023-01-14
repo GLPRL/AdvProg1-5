@@ -24,7 +24,7 @@ InOut.o: IO/DefaultIO.h IO/SocketIO.h IO/SocketIO.cpp IO/StandardIO.h IO/Standar
 	$(CC) $(CFLAGS) -c IO/StandardIO.cpp
 
 Command.o: Command/Command.h Command/ClassifyData.cpp Command/UploadData.cpp
-	$(CC) $(CFLAGS) -c Command/ClassifyData.cpp Command/UploadData.cpp
+	$(CC) $(CFLAGS) -c Command/ClassifyData.cpp Command/UploadData.cpp Command/AlgoSettings.h
 
 CLI.o:
 	$(CC) $(CFLAGS) -c CLI.h
