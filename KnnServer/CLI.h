@@ -34,7 +34,7 @@ public:
             try {
                 optNum = stoi(option);
             } catch (...) {                             //Could not convert to option number
-                io->write("Please enter a number");
+                io->write("Please enter a number\n");
                 continue;
             }
             if (optNum == 6 || optNum == 7 || optNum < 1 || optNum > 8) {
@@ -42,7 +42,6 @@ public:
                 continue;
             }
             if (optNum == 8) {
-                cout << "exit" << endl;
                 break;
             }
             options.at(optNum)->execute();

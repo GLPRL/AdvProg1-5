@@ -40,6 +40,7 @@ TypeVector::TypeVector() {
 TypeVector::TypeVector(vector<double> v, string type) {
         this->type = type;
         this->v = v;
+        this->distance = -1;
     }
 /**
  * Distance getter
@@ -71,7 +72,7 @@ TypeVector::TypeVector(vector<double> v, string type) {
         return distance < v.getDistance();
     }
 
-void TypeVector::setType(const string &type) {
+void TypeVector::setType(string type) {
     TypeVector::type = type;
 }
 

@@ -4,14 +4,17 @@
 #define ADVPROG1_5_COMMAND_H
 using namespace std;
 #include <string>
+#include <string.h>
 #include "../IO/DefaultIO.h"
-#include "../Client.h"
 #include "../Client.h"
 #include <sys/socket.h>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "iostream"
+#include "string"
+#include "sstream"
 class Command {
 private:
         string desc;        //desc. of the command
@@ -43,8 +46,8 @@ public:
         return io;
     }
 
-    Client getCd() const {
-        return *cd;
+    Client* getCd() {
+        return cd;
     }
 
     DefaultIO* getIO() {

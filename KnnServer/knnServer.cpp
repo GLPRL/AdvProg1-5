@@ -1,9 +1,10 @@
 #include "knnServer.h"
-#include "MainDistance.h"
-//#include "Command/ClassifyData.cpp"
+#include "Command/Command.h"
+#include "thread"
+#include "Command/AlgoSettings.h"
 /**
  * Extracts relevant information from message received from the client.(from char[] c).
- * Seprates the info to number vector, distanceType and k.
+ * Separates the info to number vector, distanceType and k.
  */
 void extract(char c[],int &k,string &distanceType,vector<double> &v) {
 
@@ -60,16 +61,18 @@ int getPort(string port) {
  * Handle a single client in thread.
  * @param client_sock client
  */
-void handleClient(int client_sock, map<string, int> names, vector<TypeVector> v) {
+void handleClient(int client_sock) {
     Client cd;
     SocketIO io(client_sock);
-    cd.setTv(v);
-    cd.setNames(names);
     cd.setClientSock(client_sock);
-    cd.setVSize(v[0].getVector().size());
     ClassifyData classifyData(&io, &cd);
+    UploadData uploadData(&io, &cd);
+    AlgoSettings algoSettings(&io,&cd);
     map<int, Command*> options;
+    options.insert({1, &uploadData});
     options.insert({3, &classifyData});
+    options.insert({2, &algoSettings});
+
     CLI CLI(&io, options);
     CLI.run();
     close(client_sock);
@@ -85,11 +88,11 @@ void handleClient(int client_sock, map<string, int> names, vector<TypeVector> v)
  * @return nothing
  */
 int main(int argc, char *argv[]) {
-    if (argc != 3) {                                                                               //Arg count validation
+    if (argc != 2) {                                                                               //Arg count validation
         perror("invalid input");
         return 1;
     }
-    const int server_port = getPort(argv[2]);                                                     //Port validation
+    const int server_port = getPort(argv[1]);                                                     //Port validation
     if (server_port == -1) {
         perror("invalid input");
         return 1;
@@ -106,77 +109,20 @@ int main(int argc, char *argv[]) {
     if (bind(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {                              //Bind socket
         perror("Error binding socket");
     }
-    int vSize = -1;
-    string fileName = argv[1];
-    vector<TypeVector> v = readData(vSize, fileName);           //TODO: move it. each client will have file
-    map<string, int> names = getAllNames(v);                            //TODO: move it. each client will have file
     while (true) {
         if (listen(sock, 5) < 0) {
             perror("Error listening to a socket");
-            }
-            struct sockaddr_in client_sin;
-            unsigned int addr_len = sizeof(client_sin);
+        }
+        struct sockaddr_in client_sin;
+        unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {                  //failed accepting new connection
             break;
         }
         //TODO: Thread to handle client
-        handleClient(client_sock, names, v);
+       // std:handleClient(client_sock);
+        std::thread handleConnection(handleClient,client_sock);
+        handleConnection.detach();
         //TODO: detach from thread
     }
-    //while (true) {                                                                       //Listen loop: for client input
-    //    if (listen(sock, 5) < 0) {
-    //        perror("Error listening to a socket");
-    //    }
-    //    struct sockaddr_in client_sin;
-    //    unsigned int addr_len = sizeof(client_sin);
-    //    int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);     //Accept new connection
-    //    if (client_sock < 0) {
-    //        perror("Error accepting client");
-    //    }
-    //    char buffer[2048];
-    //    memset(&buffer, 0, sizeof(buffer));
-    //    int expected_data_len = sizeof(buffer);
-    //    while (true){
-    //        char outBuffer[2048];
-    //        memset(&outBuffer, 0, sizeof(outBuffer));
-    //        int read_bytes = recv(client_sock, buffer, expected_data_len, 0);            //Receive data
-    //        if (read_bytes < 0) {
-    //            perror("Error reading from client");
-    //            continue;
-    //        }
-    //        vector<double> numVector;
-    //        string distanceType;
-    //        int k;
-    //        if (buffer[0] == '-' && buffer[1] == '1' && buffer[3] == '\0') {                    //If received end signal
-    //            close(client_sock);
-    //            memset(&outBuffer, 0, sizeof(outBuffer));
-    //            break;
-    //        }
-    //        extract(buffer,k,distanceType,numVector);                         //Extract the data from buffer
-    //        memset(&buffer, 0, sizeof(buffer));
-    //        cout<<"------"<<endl;
-    //        for(int i=0;i<numVector.size();i++){
-    //            cout<<numVector[i]<<endl;
-    //        }
-    //        cout<<distanceType<<endl;
-    //        cout << k << endl;
-    //        cout<<"------"<<endl;
-    //        string result = runMain (distanceType, v, numVector, k, names, vSize);
-    //        int resSize = result.length();                              //Read continuous data from client and send back
-    //        read_bytes = resSize;
-    //       memset(&outBuffer, 0, sizeof(outBuffer));                                        //Purge out buffer
-    //        for (int i = 0; i < resSize; i++)
-    //            outBuffer[i] = result[i];
-    //        outBuffer[resSize]='\0';
-    //        expected_data_len = sizeof(buffer);
-    //        int sent_bytes = send(client_sock, outBuffer, read_bytes, 0);     //Send data back to client
-    //        if (sent_bytes < 0) {
-    //            perror("error sending to client");
-    //        }
-    //        memset(&outBuffer, 0, sizeof(outBuffer));                                        //Purge out buffer
-    //        expected_data_len = sizeof(buffer);                                                       //Prep for receive
-    //    }
-    //}
-
 }

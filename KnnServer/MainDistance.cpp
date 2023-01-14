@@ -78,13 +78,12 @@ vector <TypeVector> readData(int &vsize, string filename) {
     vsize=excelVectorSize;
     return typeVectors;
 }
-
 /**
  * Function to run knnAlgo and verify correctness of vector sizes.
  * Running the main requirements for our KNN algorithm to function properly.
  * @param alg algorithm to use
- * @param tv TypeVectors vector from known types file
- * @param v vectors of type double to determine their types
+ * @param tv classified vectors
+ * @param v vectors to classify
  * @param k k closest neighbor, used for KnnAlgo function
  * @param names map of names and amount of appearances to update in KnnAlgo
  * @return code 0 if works as expected.
@@ -98,10 +97,12 @@ string runMain(string alg, vector<TypeVector> tv, TypeVector v, int k, map<strin
         return "invalid input";
     }
     for (int j = 0; j < tv.size(); j++) {
-        v.calculateDistance(tv[j].getVector(), alg);            //Calc. distance according to user
+        tv[j].calculateDistance(v.getVector(), alg);            //Calc. distance according to user
+
         result = knnAlgo(tv, k, names);        //Checking which vectors from csv are closest to user's vector.
     }
     v.setType(result);                            //For each TypeVector, assign its type
     cout << result << endl;
     return "s";
 }
+
