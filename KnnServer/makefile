@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++11
+CFLAGS = -std=c++11 -pthread
 
 server.out: knnServer.o Algorithms.o MainDistance.o TypeVector.o InOut.o Client.o CLI.o Command.o
 	$(CC) $(CFLAGS) knnServer.o Algorithms.o MainDistance.o TypeVector.o SocketIO.o StandardIO.o Client.o CLI.h ClassifyData.o UploadData.o -o server.out
