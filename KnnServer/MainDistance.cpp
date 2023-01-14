@@ -89,22 +89,19 @@ vector <TypeVector> readData(int &vsize, string filename) {
  * @param names map of names and amount of appearances to update in KnnAlgo
  * @return code 0 if works as expected.
 **/
-string runMain(string alg, vector<TypeVector> tv, vector<TypeVector> v, int k, map<string, int> names, int vSize) {
+string runMain(string alg, vector<TypeVector> tv, TypeVector v, int k, map<string, int> names, int vSize) {
     string result;
-    int size = tv.size();
-    if (vSize != v.size()) {
+    if (vSize != v.getVector().size()) {
         return "invalid input";
     }
     if (k > tv.size()) {                                             //If K is bigger than the amount of vectors in file
         return "invalid input";
     }
-    for (int j = 0; j < v.size(); j++) {
-        for (int i = 0; i < size; i++) {
-            v[i].calculateDistance(tv[j].getVector(), alg);            //Calc. distance according to user
-        }
-        result = knnAlgo(v, k, names);        //Checking which vectors from csv are closest to user's vector.
-        cout << result << endl;
-        v[j].setType(result);                            //For each TypeVector, assign its type
+    for (int j = 0; j < tv.size(); j++) {
+        v.calculateDistance(tv[j].getVector(), alg);            //Calc. distance according to user
+        result = knnAlgo(tv, k, names);        //Checking which vectors from csv are closest to user's vector.
     }
-    return "classifying data complete";
+    v.setType(result);                            //For each TypeVector, assign its type
+    cout << result << endl;
+    return "s";
 }
