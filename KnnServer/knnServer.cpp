@@ -67,6 +67,7 @@ void handleClient(int client_sock) {
     Client cd;
     SocketIO io(client_sock);
     cd.setClientSock(client_sock);
+                                                    //Setting options list
     ClassifyData classifyData(&io, &cd);
     UploadData uploadData(&io, &cd);
     SendSaveData sendData(&io, &cd);

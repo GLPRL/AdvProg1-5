@@ -188,13 +188,11 @@ void receiveData(int sock) {
  * Save data into file
  * @param sock client socket
  */
-void saveData(int sock) {
+void saveData(int sock, string filename) {
     ofstream fout;
     char buffer[1];
     string s;
-    string file;
-    cin >> file;
-    fout.open (file);
+    fout.open (filename);
     if (fout.is_open()) {
         int read_bytes = recv(sock, buffer, 1, 0);
         if (read_bytes < 0) {
@@ -288,15 +286,20 @@ int main(int argc, char* argv[]) {
             perror("Error sending data to server\n");
             return 1;
         }
-        if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
+        if (sent_bytes == 1 && data_addr[0] == '5') {
+            string filename;
+            cin >> filename;
+            read_bytes = recv(sock, buffer, 189, 0);
+            cout <<buffer<<endl;
+            memset(&buffer, 0, sizeof(buffer));
+            saveData(sock, filename);
+        } else if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
             readData(sock);                               //upload training file
             readData(sock);                               //upload testing file
         } else if (sent_bytes == 1 && data_addr[0] == '2') {
             option2(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '4') {
             receiveData(sock);
-        } else if (sent_bytes == 1 && data_addr[0] == '5') {
-            saveData(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '8') {
             exit(0);
         }
