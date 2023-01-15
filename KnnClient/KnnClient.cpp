@@ -159,6 +159,36 @@ void readData(int sock) {
     }
     fin.close();
 }
+/**
+ * Save data into file
+ * @param sock
+ */
+void saveData(int sock) {
+    ofstream fout;
+    char buffer[1];
+    string s;
+    string file;
+    cin >> file;
+    fout.open (file);
+    if (fout.is_open()) {
+        int read_bytes = recv(sock, buffer, 1, 0);
+        if (read_bytes < 0) {
+            perror("Error reading data from server");
+        }
+        while (buffer[0] != '>' && buffer[0] != '!' && buffer[0] != '@') {      // > = end of reading data
+            // ! = files were not classified
+            s = s + to_string(buffer[0]);                                   // @ = no files
+            read_bytes = recv(sock, buffer, 1, 0);
+            if (read_bytes < 0) {
+                perror("Error reading data from server");
+            }
+        }
+    } else if (buffer[0] == '!') {          //file was not classified
+        cout << s;
+    } else if (buffer[0] == '@') {          //no file
+        cout << s;
+    }
+}
 void option2(int sock){
     char buff[40];
     char c[1];
@@ -233,12 +263,14 @@ int main(int argc, char* argv[]) {
             readData(sock);                               //upload training file
             readData(sock);                               //upload testing file
         }
-        else if(sent_bytes == 1 && data_addr[0] == '2'){
+        else if(sent_bytes == 1 && data_addr[0] == '2') {
             option2(sock);
         }
-        else if(sent_bytes == 1 && data_addr[0] == '8'){
-            exit(0);
+        else if(sent_bytes == 1 && data_addr[0] == '5') {
+            saveData(sock);
         }
+        else if(sent_bytes == 1 && data_addr[0] == '8') {
+            exit(0);
         continue;
     }
 }

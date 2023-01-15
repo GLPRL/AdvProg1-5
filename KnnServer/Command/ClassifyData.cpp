@@ -22,6 +22,7 @@ public:
                 cout << s << endl;
                 return;
             }
+            this->getCd()->getV()[i].setType(s);
         }
     }
     ClassifyData(DefaultIO *io, Client *cd) : Command("classify data", io, cd) {}
