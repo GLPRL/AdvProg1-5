@@ -160,8 +160,33 @@ void readData(int sock) {
     fin.close();
 }
 /**
+ * Display data, without saving to file.
+ * @param sock client socket
+ */
+void receiveData(int sock) {
+    char buffer[1];
+    string s;
+    int read_bytes = recv(sock, buffer, 1, 0);
+    if (read_bytes < 0) {
+        perror("Error reading data from server");
+    }
+    while (buffer[0] != '>' && buffer[0] != '!' && buffer[0] != '@') {      // > = end of reading data
+        // ! = files were not classified
+        s = s + buffer;                                   // @ = no files
+        read_bytes = recv(sock, buffer, 1, 0);
+        if (read_bytes < 0) {
+            perror("Error reading data from server");
+        }
+    }
+    if (buffer[0] == '!') {          //file was not classified
+        cout << s;
+        return;
+    }
+    cout << s;
+}
+/**
  * Save data into file
- * @param sock
+ * @param sock client socket
  */
 void saveData(int sock) {
     ofstream fout;
@@ -177,7 +202,7 @@ void saveData(int sock) {
         }
         while (buffer[0] != '>' && buffer[0] != '!' && buffer[0] != '@') {      // > = end of reading data
             // ! = files were not classified
-            s = s + to_string(buffer[0]);                                   // @ = no files
+            s = s + buffer;                                   // @ = no files
             read_bytes = recv(sock, buffer, 1, 0);
             if (read_bytes < 0) {
                 perror("Error reading data from server");
@@ -185,9 +210,13 @@ void saveData(int sock) {
         }
     } else if (buffer[0] == '!') {          //file was not classified
         cout << s;
+        return;
     } else if (buffer[0] == '@') {          //no file
         cout << s;
+        return;
     }
+    fout << s;
+    fout.close();
 }
 void option2(int sock){
     char buff[40];
@@ -244,10 +273,10 @@ int main(int argc, char* argv[]) {
         char buffer[4096];                                                       //Clearing space for answer from server
         int expected_data_len = sizeof(buffer);
         int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
-        buffer[read_bytes]='\0';
+        buffer[read_bytes] = '\0';
         if (read_bytes < 0) {                                                                                 //If error
             perror("Error reading data from server");
-        } else if(read_bytes!=0) {
+        } else if (read_bytes != 0) {
             cout << buffer << endl;                                                                       //Print result
         }
         memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
@@ -262,15 +291,14 @@ int main(int argc, char* argv[]) {
         if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
             readData(sock);                               //upload training file
             readData(sock);                               //upload testing file
-        }
-        else if(sent_bytes == 1 && data_addr[0] == '2') {
+        } else if (sent_bytes == 1 && data_addr[0] == '2') {
             option2(sock);
-        }
-        else if(sent_bytes == 1 && data_addr[0] == '5') {
+        } else if (sent_bytes == 1 && data_addr[0] == '4') {
+            receiveData(sock);
+        } else if (sent_bytes == 1 && data_addr[0] == '5') {
             saveData(sock);
-        }
-        else if(sent_bytes == 1 && data_addr[0] == '8') {
+        } else if (sent_bytes == 1 && data_addr[0] == '8') {
             exit(0);
-        continue;
+        }
     }
 }

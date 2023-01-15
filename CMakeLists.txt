@@ -22,4 +22,4 @@ add_executable(AdvProg1-5 KnnServer/MainDistance.cpp
         KnnServer/Client.h
         KnnServer/CLI.h
         KnnServer/Client.cpp
-        KnnServer/Command/UploadData.cpp KnnServer/Command/SendData.h)
+        KnnServer/Command/UploadData.cpp KnnServer/Command/SendSaveData.h KnnServer/Command/SendnSaveData.h)

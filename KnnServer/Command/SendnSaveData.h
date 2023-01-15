@@ -1,14 +1,12 @@
 
 
-#ifndef ADVPROG1_5_SENDDATA_H
-#define ADVPROG1_5_SENDDATA_H
+#ifndef ADVPROG1_5_SENDSAVEDATA_H
+#define ADVPROG1_5_SENDSAVEDATA_H
 #include "Command.h"
 #include "../MainDistance.h"
-#endif //ADVPROG1_5_SENDDATA_H
-
-class SendData : public Command {
+#endif //ADVPROG1_5_SENDSAVEDATA_H
+class SendnSaveData : public Command {
 public:
-
     void execute() override {
         string s;
         if (this->getCd()->getV().size() == 0) {            //If no test vector exists
@@ -25,10 +23,9 @@ public:
             this->getIO()->write(s);
             return;
         }
-
         int size = this->getCd()->getV().size();
         for (int i = 0; i < size; i++) {
-            s = s + to_string(i);
+            s = s + to_string(i + 1);
             s = s + "\t";
             s = s + this->getCd()->getV()[i].getType();
             s = s + "\n";
@@ -36,5 +33,5 @@ public:
         s = s + ">";
         this->getIo()->write(s);
     }
-    SendData(DefaultIO *io, Client *cd) : Command("send classifications", io, cd) {}
+    SendnSaveData(DefaultIO *io, Client *cd) : Command("send classifications w/o saving", io, cd) {}
 };
