@@ -306,13 +306,14 @@ int main(int argc, char* argv[]) {
                 int f2 = readData(sock);                               //upload testing file
                 if (f2 == 1) {              //both files uploaded successfully
                     char buff[16];
-                    read_bytes = recv(sock, buffer, 16, 0);
+                    read_bytes = recv(sock, buff, 16, 0);
                     int i = 0;
                     string s;
                     for(;i<16;i++) {
                         s = s + buff[i];
                     }
                     cout << s << endl;
+                    continue;
                 } else if (f2 == 2) {
                     continue;
                 }
