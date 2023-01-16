@@ -7,7 +7,6 @@ class UploadData : public Command {
 public:
     void execute() override {
         //get the known types vectors
-        cout<<"im here"<<endl;
         this->getIO()->write(s1);
         string num;
         string s;
@@ -18,10 +17,13 @@ public:
             vector<double> vNum;
             vtemp = this->getIO()->read();
             v[0] = vtemp[0];
-            if (v[0]=='>' ) {           //end cond.
+            if (v[0] == '>') {           //end cond.
                 break;
             }
-            while (v[0]!='$') {        //Receive a full line
+            if (v[0] == '<') {
+                return;
+            }
+            while (v[0] != '$') {        //Receive a full line
                 num = num + v[0];                //vector represented as string
                 vtemp = this->getIO()->read();
                 v[0] = vtemp[0];
@@ -35,16 +37,13 @@ public:
                     vNum.push_back(n);
                 } catch (...) {                 //is a type string
                     s = word;
-                      cout<<s<<endl;
                     break;
                 }
             }
             num = "";
-            cout<<"test1"<<endl;
             TypeVector tv = TypeVector(vNum, s);
             temp.push_back(tv);
         }
-          cout<<"out of first loop"<<endl;
         this->getCd()->setVSize(temp[0].getVector().size());
         this->getCd()->setTv(&temp);
         this->getCd()->setNames(getAllNames(this->getCd()->getTv()));       //Create names DB
@@ -58,9 +57,11 @@ public:
             vector<double> vNum;
             vtemp = this->getIO()->read();
             v[0] = vtemp[0];
-            if (v[0]=='>') {   
-                cout<<"finish loop"<<endl;       //end cond.
+            if (v[0]=='>') {
                 break;
+            }
+            if (v[0] == '<') {
+                return;
             }
             while (v[0]!='$') {        //Receive a full line
                 num = num + v[0];                //vector represented as string
@@ -83,6 +84,7 @@ public:
             temp1.push_back(tv);
         }
         this->getCd()->setV(&temp1);
+        this->getIO()->write("Upload complete.");
     }
     UploadData(DefaultIO *io, Client *cd) : Command("upload data", io, cd) {}
 };

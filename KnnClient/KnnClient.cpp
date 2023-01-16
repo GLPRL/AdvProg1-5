@@ -104,14 +104,20 @@ int getPort(string port) {
     }
     return serverPort;
 }
-void readData(int sock) {
+/**
+ * read data and send to server
+ * @param sock  client sock
+ * @return 1 if everything works; 2 if no file was found; 3 if connection error
+ */
+int readData(int sock) {
     char bufferFile[4096];                                                   //Clearing space for answer from server
     int expected_data_len = sizeof(bufferFile);
     int read_bytes = recv(sock, bufferFile, expected_data_len, 0);       //Receive from server
     bufferFile[read_bytes]='\0';
     if (read_bytes < 0) {                                                                             //If error
         perror("Error reading data from server");
-    } else if (read_bytes!=0) {
+        return 3;
+    } else if ( read_bytes != 0 ) {
         cout << bufferFile;
     }
     string filename;
@@ -130,7 +136,7 @@ void readData(int sock) {
                 sent_bytes = send(sock, buffer, 1, 0);
                 if (sent_bytes < 0) {
                     perror("Error sending data to server\n");
-                    return;
+                    return 3;
                 }
                 memset(&buffer, 0, 1);
             }
@@ -138,26 +144,27 @@ void readData(int sock) {
             sent_bytes = send(sock, buffer, 1, 0);
             if (sent_bytes < 0) {
                 perror("Error sending data to server\n");
-                return;
+                return 3;
             }
         }
     } else {                                                          //Failed opening file
-        perror("No such file or directory");
+        cout <<"invalid input"<< endl;
         buffer[0] = ERR;
         sent_bytes = send(sock, buffer, 1, 0);
         if (sent_bytes < 0) {
             perror("Error sending data to server\n");
-            return;
+            return 3;
         }
-        return;
+        return 2;
     }
     buffer[0] = EF;
     sent_bytes = send(sock, buffer, 1, 0);
     if (sent_bytes < 0) {
         perror("Error sending data to server\n");
-        return;
+        return 3;
     }
     fin.close();
+    return 1;
 }
 /**
  * Display data, without saving to file.
@@ -294,8 +301,24 @@ int main(int argc, char* argv[]) {
             memset(&buffer, 0, sizeof(buffer));
             saveData(sock, filename);
         } else if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
-            readData(sock);                               //upload training file
-            readData(sock);                               //upload testing file
+            int f1 = readData(sock);                               //upload training file
+            if (f1 == 1) {
+                int f2 = readData(sock);                               //upload testing file
+                if (f2 == 1) {              //both files uploaded successfully
+                    char buff[16];
+                    read_bytes = recv(sock, buffer, 16, 0);
+                    int i = 0;
+                    string s;
+                    for(;i<16;i++) {
+                        s = s + buff[i];
+                    }
+                    cout << s << endl;
+                } else if (f2 == 2) {
+                    continue;
+                }
+            } else if (f1 == 2) {                                 //Wrong path
+                continue;
+            }
         } else if (sent_bytes == 1 && data_addr[0] == '2') {
             option2(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '4') {
