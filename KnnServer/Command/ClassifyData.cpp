@@ -6,12 +6,9 @@
 class ClassifyData : public Command {
 public:
     void execute() override {
-        if (this->getCd()->getK() < 1 || this->getCd()->getAlg() == "") {
-            cout << "required parameters are not loaded" << endl;
-            return;
-        }
         if (this->getCd()->getV().size() == 0 || this->getCd()->getTv().size() == 0) {
-            cout << "please upload data" << endl;
+            this->getIo()->write("!");
+            this->getIo()->write("please upload data");
             return;
         }
         int i;
@@ -24,6 +21,7 @@ public:
             }
             this->getCd()->getV()[i].setType(s);
         }
+        this->getIo()->write(">");
     }
     ClassifyData(DefaultIO *io, Client *cd) : Command("classify data", io, cd) {}
 };
