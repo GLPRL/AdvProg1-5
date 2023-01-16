@@ -302,6 +302,21 @@ int main(int argc, char* argv[]) {
             receiveData(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '8') {
             exit(0);
+        } else if (sent_bytes == 1 && data_addr[0] == '3') {
+            char bufferOne[1];
+            read_bytes = recv(sock, bufferOne, 1, 0);
+            if (bufferOne[0] == '!') {                //won't run loop if everything is correct
+                string s;
+                char err[18];
+                read_bytes = recv(sock, err, 18, 0);
+                int i = 0;
+                while (i < 18) {                      //copy data to string to print
+                    s = s + err[i];
+                    i++;
+                }
+                cout << s << endl;
+            }
+            memset(&bufferOne, 0, 1);
         }
     }
 }
