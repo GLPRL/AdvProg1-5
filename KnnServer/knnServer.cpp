@@ -2,6 +2,8 @@
 #include "Command/Command.h"
 #include "thread"
 #include "Command/AlgoSettings.h"
+#include "Command/SendSaveData.h"
+#include "Command/SendnSaveData.h"
 /**
  * Extracts relevant information from message received from the client.(from char[] c).
  * Separates the info to number vector, distanceType and k.
@@ -65,13 +67,18 @@ void handleClient(int client_sock) {
     Client cd;
     SocketIO io(client_sock);
     cd.setClientSock(client_sock);
+                                                    //Setting options list
     ClassifyData classifyData(&io, &cd);
     UploadData uploadData(&io, &cd);
+    SendSaveData sendData(&io, &cd);
     AlgoSettings algoSettings(&io,&cd);
+    SendnSaveData sendnSaveData(&io, &cd);
     map<int, Command*> options;
     options.insert({1, &uploadData});
-    options.insert({3, &classifyData});
     options.insert({2, &algoSettings});
+    options.insert({3, &classifyData});
+    options.insert({4, &sendnSaveData});
+    options.insert({5, &sendData});
 
     CLI CLI(&io, options);
     CLI.run();
@@ -120,7 +127,7 @@ int main(int argc, char *argv[]) {
             break;
         }
         //TODO: Thread to handle client
-       // std:handleClient(client_sock);
+        // std:handleClient(client_sock);
         std::thread handleConnection(handleClient,client_sock);
         handleConnection.detach();
         //TODO: detach from thread

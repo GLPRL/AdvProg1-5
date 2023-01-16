@@ -159,6 +159,63 @@ void readData(int sock) {
     }
     fin.close();
 }
+/**
+ * Display data, without saving to file.
+ * @param sock client socket
+ */
+void receiveData(int sock) {
+    char buffer[1];
+    string s;
+    int read_bytes = recv(sock, buffer, 1, 0);
+    if (read_bytes < 0) {
+        perror("Error reading data from server");
+    }
+    while (buffer[0] != '>' && buffer[0] != '!' && buffer[0] != '@') {      // > = end of reading data
+        // ! = files were not classified
+        s = s + buffer[0];                                   // @ = no files
+        read_bytes = recv(sock, buffer, 1, 0);
+        if (read_bytes < 0) {
+            perror("Error reading data from server");
+        }
+    }
+    if (buffer[0] == '!') {          //file was not classified
+        cout << s;
+        return;
+    }
+    cout << s;
+}
+/**
+ * Save data into file
+ * @param sock client socket
+ */
+void saveData(int sock, string filename) {
+    ofstream fout;
+    char buffer[1];
+    string s;
+    fout.open (filename);
+    if (fout.is_open()) {
+        int read_bytes = recv(sock, buffer, 1, 0);
+        if (read_bytes < 0) {
+            perror("Error reading data from server");
+        }
+        while (buffer[0] != '>' && buffer[0] != '!' && buffer[0] != '@') {      // > = end of reading data
+            // ! = files were not classified
+            s = s + buffer[0];                                   // @ = no files
+            read_bytes = recv(sock, buffer, 1, 0);
+            if (read_bytes < 0) {
+                perror("Error reading data from server");
+            }
+        }
+    } else if (buffer[0] == '!') {          //file was not classified
+        cout << s;
+        return;
+    } else if (buffer[0] == '@') {          //no file
+        cout << s;
+        return;
+    }
+    fout << s;
+    fout.close();
+}
 void option2(int sock){
     char buff[40];
     char c[1];
@@ -214,10 +271,10 @@ int main(int argc, char* argv[]) {
         char buffer[4096];                                                       //Clearing space for answer from server
         int expected_data_len = sizeof(buffer);
         int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
-        buffer[read_bytes]='\0';
+        buffer[read_bytes] = '\0';
         if (read_bytes < 0) {                                                                                 //If error
             perror("Error reading data from server");
-        } else if(read_bytes!=0) {
+        } else if (read_bytes != 0) {
             cout << buffer << endl;                                                                       //Print result
         }
         memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
@@ -229,19 +286,26 @@ int main(int argc, char* argv[]) {
             perror("Error sending data to server\n");
             return 1;
         }
-        if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
+        if (sent_bytes == 1 && data_addr[0] == '5') {
+            string filename;
+            cin >> filename;
+            read_bytes = recv(sock, buffer, 189, 0);
+            cout <<buffer<<endl;
+            memset(&buffer, 0, sizeof(buffer));
+            saveData(sock, filename);
+        } else if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
             readData(sock);                               //upload training file
             readData(sock);                               //upload testing file
-        }
-        else if(sent_bytes == 1 && data_addr[0] == '2'){
+        } 
+          else if(sent_bytes == 1 && data_addr[0] == '2'){
             read_bytes = recv(sock, buffer, expected_data_len, 0);
             cout<<buffer<<endl;
             memset(&buffer, 0, sizeof(buffer));
             option2(sock);
-        }
-        else if(sent_bytes == 1 && data_addr[0] == '8'){
+        } else if (sent_bytes == 1 && data_addr[0] == '4') {
+            receiveData(sock);
+        } else if (sent_bytes == 1 && data_addr[0] == '8') {
             exit(0);
         }
-        continue;
     }
 }

@@ -32,8 +32,8 @@ TypeVector aggregate(vector <string> vectorsString) {
             vectors.push_back(p);
         }
         catch (...){
-                perror("This excel file's vectors are not in accordance to instructions\n");
-                exit(-1);
+            perror("This excel file's vectors are not in accordance to instructions\n");
+            exit(-1);
         }
     }                                                          //Item in last position in vectorsString will be the name
     string name = vectorsString[vectorsString.size() - 1];
@@ -49,7 +49,7 @@ TypeVector aggregate(vector <string> vectorsString) {
 vector <TypeVector> readData(int &vsize, string filename) {
     fstream fin;
     string line, word;
-                                                                  //we need to select the algorithm according to string.
+    //we need to select the algorithm according to string.
     vector <TypeVector> typeVectors;
     vector <string> row;                                                                                  //Name of type
     vector<double> vectors;                                                                             //Vector of type
@@ -102,7 +102,5 @@ string runMain(string alg, vector<TypeVector> tv, TypeVector v, int k, map<strin
         result = knnAlgo(tv, k, names);        //Checking which vectors from csv are closest to user's vector.
     }
     v.setType(result);                            //For each TypeVector, assign its type
-    cout << result << endl;
-    return "s";
+    return result;
 }
-

@@ -13,64 +13,64 @@ using namespace std;
  * @param v1 numbers vector to calculate distance with
  * @param distanceType Type of algorithm to use
 **/
-    void TypeVector::calculateDistance(vector<double> v1, string distanceType) {
-        if (distanceType.compare("AUC") == 0) {
-            distance = euclidean(v, v1);
-        } else if (distanceType.compare("MAN") == 0) {
-            distance = manhattan(v, v1);
-        } else if (distanceType.compare("CHB") == 0) {
-            distance = chebyshev(v, v1);
-        } else if (distanceType.compare("CAN") == 0) {
-            distance = canberra(v, v1);
-        } else if (distanceType.compare("MIN") == 0) {
-            distance = minkowski(v, v1);
-        }
+void TypeVector::calculateDistance(vector<double> v1, string distanceType) {
+    if (distanceType.compare("AUC") == 0) {
+        distance = euclidean(v, v1);
+    } else if (distanceType.compare("MAN") == 0) {
+        distance = manhattan(v, v1);
+    } else if (distanceType.compare("CHB") == 0) {
+        distance = chebyshev(v, v1);
+    } else if (distanceType.compare("CAN") == 0) {
+        distance = canberra(v, v1);
+    } else if (distanceType.compare("MIN") == 0) {
+        distance = minkowski(v, v1);
+    }
 
-    }
+}
 TypeVector::TypeVector() {
-        this->v;
-        this->type;
-        this->distance;
-    }
+    this->v;
+    this->type;
+    this->distance;
+}
 /**
  * Constructor
  * @param v numbers vector
  * @param type name of type
  */
 TypeVector::TypeVector(vector<double> v, string type) {
-        this->type = type;
-        this->v = v;
-        this->distance = -1;
-    }
+    this->type = type;
+    this->v = v;
+    this->distance = -1;
+}
 /**
  * Distance getter
  * @return distance
  */
-    double TypeVector::getDistance() {
-        return distance;
-    }
+double TypeVector::getDistance() {
+    return distance;
+}
 /**
  * Type getter
  * @return type as string
  */
-    string TypeVector::getType() {
-        return type;
-    }
+string TypeVector::getType() {
+    return type;
+}
 /**
  * Numbers vector getter
  * @return numbers vector
  */
-    vector<double> TypeVector::getVector() {
-        return v;
-    }
+vector<double> TypeVector::getVector() {
+    return v;
+}
 /**
  * Custom operator "<" for distance comparison
  * @param v vector to compare distances with
  * @return implementation of < operator
  */
-    bool  TypeVector::operator<(TypeVector v) const {
-        return distance < v.getDistance();
-    }
+bool  TypeVector::operator<(TypeVector v) const {
+    return distance < v.getDistance();
+}
 
 void TypeVector::setType(string type) {
     TypeVector::type = type;

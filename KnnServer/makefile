@@ -24,7 +24,7 @@ InOut.o: IO/DefaultIO.h IO/SocketIO.h IO/SocketIO.cpp IO/StandardIO.h IO/Standar
 	$(CC) $(CFLAGS) -c IO/StandardIO.cpp
 
 Command.o: Command/Command.h Command/ClassifyData.cpp Command/UploadData.cpp
-	$(CC) $(CFLAGS) -c Command/ClassifyData.cpp Command/UploadData.cpp Command/AlgoSettings.h
+	$(CC) $(CFLAGS) -c Command/ClassifyData.cpp Command/UploadData.cpp Command/AlgoSettings.h Command/SendnSaveData.h Command/SendSaveData.h
 
 CLI.o:
 	$(CC) $(CFLAGS) -c CLI.h
@@ -32,4 +32,4 @@ CLI.o:
 #need to compile/link the IO and Command dirs too
 
 clean:
-	rm -f *.o server.out
+	rm -f *.o *.h.gch Command/*.h.gch server.out

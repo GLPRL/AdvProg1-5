@@ -40,7 +40,7 @@ void Client::setTv(const vector<TypeVector> *tv) {
     Client::tv = *tv;
 }
 
-const vector<TypeVector> &Client::getV() const {
+vector<TypeVector> &Client::getV() {
     return v;
 }
 
