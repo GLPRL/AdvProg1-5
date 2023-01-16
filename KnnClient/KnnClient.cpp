@@ -234,6 +234,9 @@ int main(int argc, char* argv[]) {
             readData(sock);                               //upload testing file
         }
         else if(sent_bytes == 1 && data_addr[0] == '2'){
+            read_bytes = recv(sock, buffer, expected_data_len, 0);
+            cout<<buffer<<endl;
+            memset(&buffer, 0, sizeof(buffer));
             option2(sock);
         }
         else if(sent_bytes == 1 && data_addr[0] == '8'){
