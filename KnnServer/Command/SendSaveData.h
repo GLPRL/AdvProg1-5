@@ -13,21 +13,6 @@ class SendSaveData : public Command {
 public:
     void saveInThread() {
         string s;
-        if (this->getCd()->getV().size() == 0) {            //If no test vector exists
-            s = "@";
-            this->getIO()->write(s);
-            s = "please upload data";
-            this->getIO()->write(s);
-            return;
-        }
-        if (this->getCd()->getV()[0].getType() == "") {
-            s = "!";
-            this->getIO()->write(s);
-            s = "please classify the data";
-            this->getIO()->write(s);
-            return;
-        }
-
         int size = this->getCd()->getV().size();
         for (int i = 0; i < size; i++) {
             s = s + to_string(i + 1);
@@ -39,13 +24,16 @@ public:
         this->getIo()->write(s);
     }
     void execute() override {
-        //std::thread t(&SendSaveData::saveInThread, this);
-        //t.join();
-        //thread t1([this](){ saveInThread();});
-        //t1.join();
+        if (this->getCd()->getV().size() == 0) {            //If no test vector exists
+            this->getIO()->write("@"); // please upload data
+            return;
+        }
+        if (this->getCd()->getV()[0].getType() == "") {
+            this->getIO()->write("!"); // please classify the data
+            return;
+        }
         std::thread classify(&SendSaveData::saveInThread, this);
         classify.detach();
-        //saveInThread();
     }
 
     SendSaveData(DefaultIO *io, Client *cd) : Command("send classifications", io, cd) {}
