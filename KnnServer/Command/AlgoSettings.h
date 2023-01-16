@@ -25,7 +25,7 @@ public:
         int k;
         int kInvalid = 0;
         int metInvalid = 0;
-
+        this->getIo()->write("The current KNN parameters are: K = "+to_string(this->getCd()->getK())+ ", distance metric = "+this->getCd()->getAlg());
         string s = this->getIo()->read();
         string input = "";
         vector<string> msg;
@@ -41,6 +41,10 @@ public:
             k = stoi(msg[0]);
         }
         catch (...) {
+            this->getIO()->write("invalid value for K\n");
+            kInvalid = 1;
+        }
+        if(k==0){
             this->getIO()->write("invalid value for K\n");
             kInvalid = 1;
         }
