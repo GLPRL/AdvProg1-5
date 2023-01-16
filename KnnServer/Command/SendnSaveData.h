@@ -30,6 +30,7 @@ public:
             s = s + this->getCd()->getV()[i].getType();
             s = s + "\n";
         }
+        s = s+"Done.\n";
         s = s + ">";
         this->getIo()->write(s);
     }

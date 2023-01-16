@@ -304,7 +304,23 @@ int main(int argc, char* argv[]) {
             lastWasNotDownload=0;
             string filename;
             cin >> filename;
-            read_bytes = recv(sock, buffer, 189, 0);
+            read_bytes = recv(sock, buffer, 1, 0);
+            if(buffer[0]=='@'){
+                cout<<"please upload data"<<endl;
+                memset(&buffer, 0, sizeof(buffer));
+                lastWasNotDownload=1;
+                continue;
+            }
+            else if(buffer[0]=='!'){
+                cout<<"please classify the data"<<endl;
+                memset(&buffer, 0, sizeof(buffer));
+                lastWasNotDownload=1;
+                continue;
+            }
+            char firstLetter=buffer[0];
+            memset(&buffer, 0, sizeof(buffer));
+            read_bytes = recv(sock, buffer, 188, 0);
+            cout<<firstLetter;
             cout <<buffer<<endl;
             memset(&buffer, 0, sizeof(buffer));
             saveData(sock, filename);
@@ -343,6 +359,7 @@ int main(int argc, char* argv[]) {
             lastWasNotDownload=1;
             exit(0);
         } else if (sent_bytes == 1 && data_addr[0] == '3') {
+            lastWasNotDownload=1;
             char bufferOne[1];
             read_bytes = recv(sock, bufferOne, 1, 0);
             if (bufferOne[0] == '!') {                //won't run loop if everything is correct
@@ -357,9 +374,6 @@ int main(int argc, char* argv[]) {
                 cout << s << endl;
             }
             memset(&bufferOne, 0, 1);
-        }
-        else if(sent_bytes == 1 && data_addr[0] == '3'){
-            lastWasNotDownload=1;
         }
     }
 }
