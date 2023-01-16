@@ -46,6 +46,7 @@ public:
         }
         if(!kInvalid&&k==0){
             this->getIO()->write("invalid value for K\n");
+            kInvalid = 1;
         }
         
         string met = (msg[1]);
