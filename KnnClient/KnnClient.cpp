@@ -267,17 +267,25 @@ int main(int argc, char* argv[]) {
     if (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {                   //Connected to server
         perror("Error connecting to server");
     }
+    char buffer[4096];
+    int lastWasNotDownload=1;
+    int read_bytes;
+    int expected_data_len;
+    int pp=1;
     while (true) {
-        char buffer[4096];                                                       //Clearing space for answer from server
-        int expected_data_len = sizeof(buffer);
-        int read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
-        buffer[read_bytes] = '\0';
-        if (read_bytes < 0) {                                                                                 //If error
-            perror("Error reading data from server");
-        } else if (read_bytes != 0) {
-            cout << buffer << endl;                                                                       //Print result
+        if(lastWasNotDownload) {
+            expected_data_len = sizeof(buffer);
+            read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
+            buffer[read_bytes] = '\0';
+            if (read_bytes <
+                0) {                                                                                 //If error
+                perror("Error reading data from server");
+            } else if (read_bytes != 0) {
+                cout << buffer
+                     << endl;                                                                       //Print result
+            }
+            memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
         }
-        memset(&buffer, 0, sizeof(buffer));                                       //Purge past data from buffer
         char data_addr[1];
         memset(&data_addr, 0, sizeof(data_addr));                                           //Purge send buffer
         cin >> data_addr;
@@ -287,25 +295,33 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         if (sent_bytes == 1 && data_addr[0] == '5') {
+            lastWasNotDownload=0;
             string filename;
             cin >> filename;
             read_bytes = recv(sock, buffer, 189, 0);
             cout <<buffer<<endl;
             memset(&buffer, 0, sizeof(buffer));
             saveData(sock, filename);
-        } else if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
+        } else if (sent_bytes == 1 && data_addr[0] == '1') {//Upload command
+            lastWasNotDownload=1;
             readData(sock);                               //upload training file
             readData(sock);                               //upload testing file
-        } 
-          else if(sent_bytes == 1 && data_addr[0] == '2'){
+        }
+        else if(sent_bytes == 1 && data_addr[0] == '2'){
+            lastWasNotDownload=1;
             read_bytes = recv(sock, buffer, expected_data_len, 0);
             cout<<buffer<<endl;
             memset(&buffer, 0, sizeof(buffer));
             option2(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '4') {
+            lastWasNotDownload=1;
             receiveData(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '8') {
+            lastWasNotDownload=1;
             exit(0);
+        }
+        else if(sent_bytes == 1 && data_addr[0] == '3'){
+            lastWasNotDownload=1;
         }
     }
 }
