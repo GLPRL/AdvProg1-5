@@ -25,7 +25,7 @@ public:
         int k;
         int kInvalid = 0;
         int metInvalid = 0;
-
+        this->getIo()->write("The current KNN parameters are: K = "+to_string(this->getCd()->getK())+ ", distance metric = "+this->getCd()->getAlg());
         string s = this->getIo()->read();
         string input = "";
         vector<string> msg;
@@ -44,6 +44,10 @@ public:
             this->getIO()->write("invalid value for K\n");
             kInvalid = 1;
         }
+        if(!kInvalid&&k==0){
+            this->getIO()->write("invalid value for K\n");
+        }
+        
         string met = (msg[1]);
         if(met.compare("AUC")==0||met.compare("MIN")==0||met.compare("CHB")==0||met.compare("CAN")==0||met.compare("MAN")==0){
             if(!kInvalid){
