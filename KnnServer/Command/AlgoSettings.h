@@ -44,10 +44,10 @@ public:
             this->getIO()->write("invalid value for K\n");
             kInvalid = 1;
         }
-        if(k==0){
+        if(!kInvalid&&k==0){
             this->getIO()->write("invalid value for K\n");
-            kInvalid = 1;
         }
+        
         string met = (msg[1]);
         if(met.compare("AUC")==0||met.compare("MIN")==0||met.compare("CHB")==0||met.compare("CAN")==0||met.compare("MAN")==0){
             if(!kInvalid){
