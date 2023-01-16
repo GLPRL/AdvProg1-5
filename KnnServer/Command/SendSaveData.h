@@ -14,16 +14,18 @@ public:
     void saveInThread() {
         string s;
         if (this->getCd()->getV().size() == 0) {            //If no test vector exists
-            s = "please upload data";
+            s = "please upload data\n";
             this->getIO()->write(s);
             s = "@";
             this->getIO()->write(s);
+            return;
         }
         if (this->getCd()->getV()[0].getType() == "") {
-            s = "please classify the data";
+            s = "please classify the data\n";
             this->getIO()->write(s);
             s = "!";
             this->getIO()->write(s);
+            return;
         }
 
         int size = this->getCd()->getV().size();
