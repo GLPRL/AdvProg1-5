@@ -6,7 +6,7 @@
 #include <string.h>
 #include <fstream>
 #include <vector>
-
+#include <sys/stat.h>
 using namespace std;
 const char EOL = '$';
 const char ERR = '<';
