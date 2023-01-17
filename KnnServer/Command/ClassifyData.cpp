@@ -16,7 +16,6 @@ public:
             string s = runMain(this->getCd()->getAlg(), this->getCd()->getTv(), this->getCd()->getV()[i],
                                this->getCd()->getK(), this->getCd()->getNames(), this->getCd()->getVSize());
             if (s == "invalid input") {             //if vectors aren't compliant
-                cout << s << endl;
                 return;
             }
             this->getCd()->getV()[i].setType(s);

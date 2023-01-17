@@ -42,5 +42,7 @@ public:
     void setNames(const map<string, int> &names);
     int getVSize() const;
     void setVSize(int vSize);
+
+    virtual ~Client();
 };
 #endif //ADVPROG1_4_CLIENT_H

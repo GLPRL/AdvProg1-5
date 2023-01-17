@@ -38,7 +38,6 @@ public:
                 continue;
             }
             if (optNum == 6 || optNum == 7 || optNum < 1 || optNum > 8) {
-                cout << "invalid option" << endl;
                 continue;
             }
             if (optNum == 8) {
