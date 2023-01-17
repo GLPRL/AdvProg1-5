@@ -378,7 +378,7 @@ int main(int argc, char* argv[]) {
                 read_bytes = recv(sock, success, 25, 0);
                 int i = 0;
                 while (i < 25) {                      //copy data to string to print
-                    s = s + err[i];
+                    s = s + success[i];
                     i++;
                 }
                 cout << s << endl;
