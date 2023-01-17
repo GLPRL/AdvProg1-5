@@ -17,7 +17,7 @@ public:
             vector<double> vNum;
             vtemp = this->getIO()->read();
             v[0] = vtemp[0];
-            if (v[0] == '>') {           //end cond.
+            if (v[0] == '>') {                  //end cond.
                 break;
             }
             if (v[0] == '<') {
