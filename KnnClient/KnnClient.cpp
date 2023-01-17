@@ -274,12 +274,12 @@ int main(int argc, char* argv[]) {
         perror("Error connecting to server");
     }
     char buffer[4096];
-    int lastWasNotDownload=1;
+    int lastWasNotDownload = 1;
     int read_bytes;
     int expected_data_len;
-    int pp=1;
+    int pp = 1;
     while (true) {
-        if(lastWasNotDownload) {
+        if (lastWasNotDownload) {
             expected_data_len = sizeof(buffer);
             read_bytes = recv(sock, buffer, expected_data_len, 0);                 //Receive from server
             buffer[read_bytes] = '\0';
@@ -301,31 +301,30 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         if (sent_bytes == 1 && data_addr[0] == '5') {
-            lastWasNotDownload=0;
+            lastWasNotDownload = 0;
             string filename;
             cin >> filename;
             read_bytes = recv(sock, buffer, 1, 0);
-            if(buffer[0]=='@'){
-                cout<<"please upload data"<<endl;
+            if (buffer[0] == '@') {
+                cout << "please upload data" << endl;
                 memset(&buffer, 0, sizeof(buffer));
-                lastWasNotDownload=1;
+                lastWasNotDownload = 1;
+                continue;
+            } else if (buffer[0] == '!') {
+                cout << "please classify the data" << endl;
+                memset(&buffer, 0, sizeof(buffer));
+                lastWasNotDownload = 1;
                 continue;
             }
-            else if(buffer[0]=='!'){
-                cout<<"please classify the data"<<endl;
-                memset(&buffer, 0, sizeof(buffer));
-                lastWasNotDownload=1;
-                continue;
-            }
-            char firstLetter=buffer[0];
+            char firstLetter = buffer[0];
             memset(&buffer, 0, sizeof(buffer));
             read_bytes = recv(sock, buffer, 188, 0);
-            cout<<firstLetter;
-            cout <<buffer<<endl;
+            cout << firstLetter;
+            cout << buffer << endl;
             memset(&buffer, 0, sizeof(buffer));
             saveData(sock, filename);
         } else if (sent_bytes == 1 && data_addr[0] == '1') {     //Upload command
-            lastWasNotDownload=1;
+            lastWasNotDownload = 1;
             int f1 = readData(sock);                               //upload training file
             if (f1 == 1) {
                 int f2 = readData(sock);                               //upload testing file
@@ -334,7 +333,7 @@ int main(int argc, char* argv[]) {
                     read_bytes = recv(sock, buff, 16, 0);
                     int i = 0;
                     string s;
-                    for(;i<16;i++) {
+                    for (; i < 16; i++) {
                         s = s + buff[i];
                     }
                     cout << s << endl;
@@ -345,21 +344,20 @@ int main(int argc, char* argv[]) {
             } else if (f1 == 2) {                                 //Wrong path
                 continue;
             }
-        }
-        else if(sent_bytes == 1 && data_addr[0] == '2'){
-            lastWasNotDownload=1;
+        } else if (sent_bytes == 1 && data_addr[0] == '2') {
+            lastWasNotDownload = 1;
             read_bytes = recv(sock, buffer, expected_data_len, 0);
-            cout<<buffer<<endl;
+            cout << buffer << endl;
             memset(&buffer, 0, sizeof(buffer));
             option2(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '4') {
-            lastWasNotDownload=1;
+            lastWasNotDownload = 1;
             receiveData(sock);
         } else if (sent_bytes == 1 && data_addr[0] == '8') {
-            lastWasNotDownload=1;
+            lastWasNotDownload = 1;
             exit(0);
         } else if (sent_bytes == 1 && data_addr[0] == '3') {
-            lastWasNotDownload=1;
+            lastWasNotDownload = 1;
             char bufferOne[1];
             read_bytes = recv(sock, bufferOne, 1, 0);
             if (bufferOne[0] == '!') {                //won't run loop if everything is correct
@@ -382,7 +380,8 @@ int main(int argc, char* argv[]) {
                     i++;
                 }
                 cout << s << endl;
-            memset(&bufferOne, 0, 1);
+                memset(&bufferOne, 0, 1);
+            }
         }
     }
 }
