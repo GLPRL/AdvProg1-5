@@ -7,6 +7,8 @@ class UploadData : public Command {
 public:
     void execute() override {
         //get the known types vectors
+        this->getCd()->getTv().clear();
+        this->getCd()->getV().clear();
         this->getIO()->write(s1);
         string num;
         string s;
