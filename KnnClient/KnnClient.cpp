@@ -372,7 +372,16 @@ int main(int argc, char* argv[]) {
                     i++;
                 }
                 cout << s << endl;
-            }
+            } else {
+                char success[18];
+                string s;
+                read_bytes = recv(sock, success, 25, 0);
+                int i = 0;
+                while (i < 25) {                      //copy data to string to print
+                    s = s + err[i];
+                    i++;
+                }
+                cout << s << endl;
             memset(&bufferOne, 0, 1);
         }
     }

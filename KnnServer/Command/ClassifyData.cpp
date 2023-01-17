@@ -21,6 +21,7 @@ public:
             this->getCd()->getV()[i].setType(s);
         }
         this->getIo()->write(">");
+        this->getIo()->write("classifying data complete");
     }
     ClassifyData(DefaultIO *io, Client *cd) : Command("classify data", io, cd) {}
 };
