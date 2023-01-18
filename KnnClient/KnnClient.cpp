@@ -238,6 +238,7 @@ void option2(int sock){
         int sent_bytes = send(sock, c, 1, 0);
     }
 
+
 }
 /**
  * KNN client
