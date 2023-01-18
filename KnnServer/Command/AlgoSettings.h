@@ -38,7 +38,7 @@ public:
         }
         tokenize(input, ' ', msg);
         if (msg.size() != 2) {
-            this->getIO()->write("Not enough parameters\n");
+            this->getIO()->write("invalid amount of parameters\n");
             return;
         }
         try {
