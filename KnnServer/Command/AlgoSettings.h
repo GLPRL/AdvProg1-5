@@ -37,6 +37,10 @@ public:
             s = this->getIo()->read();
         }
         tokenize(input, ' ', msg);
+        if (msg.size() != 2) {
+            this->getIO()->write("Not enough parameters\n");
+            return;
+        }
         try {
             k = stoi(msg[0]);
         }
