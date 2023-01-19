@@ -7,13 +7,12 @@ Gal Pearl,
 Dekel Schreiber
 
 In this task, there will be five algorithms for calculating vectors, in different approaches.
-We receive a unclassified CSV file format of some archtype of items to classify, according to a existing CSV file loaded in the server.
+The client selects the test and train files: the earlier is already classified, the latter is to be classified.
 
-Each vector in the unclassified CSV will be classified, according to known algorithms and number of closest neighbors, and then will be saved/displayed to the user.
+Each vector in the unclassified CSV will be classified, according to known algorithms and number of closest neighbors,
+and the user can modify calculation variables (Algorithm and amount of neighbors), display the info or save to file.
 
 Comparisons can be made between a single archtype, as each has their own attributes to compare.
-
-# UPDATE
 
 ### Compliation Instructions:
 First, clone/download zip of the repository, 
@@ -25,13 +24,10 @@ git clone https://github.com/GLPRL/AdvProg1-5
 and cd into the un-packed project folder
 Among all the files, there's a makefile for using make. However, you'll need to use it for the entity you need:
 
-inside KnnServer there will be a makefile for the server, and inside the KnnClient there will be for creating a client.
-Choose which ever you want, and
+For each entity - client and server, there's a make command. Cd into the wanted folder and run
 ```
 make
 ```
-
-**As usual, the CSV files must be in the same directory with the executable.**
 
 ##### Run instructions for server:
 
@@ -50,26 +46,23 @@ Look for the following attributes:
 Each one of them is required for correct functionality and connectivity of the server.
 #### Run the server with:
 ```
-./server.out <file> <port>
+./server.out <port>
 ```
-- file: Name of the CSV file. Must be in the same directory as project files.
 - port: A valid port in range of 0-65535. We will check at runtime.
 
 #### Run instructions for client:
 ```
 ./client.out <ip> <port>
 ```
-- ip: Must be 127.0.0.1 (Unless client is run on a different computer)
-- port: A valid port in range of 0-65535. We will check at runtime.
-
-  For correct connection, client port must be different than the server port, if on same station.
-   (Don't forget **not** to write with the triangle brackets)
+- ip: 127.0.0.1, Unless client is run on a different computer)
+- port: A valid port in range of 0-65535, used to connect to the server.
 
 ## General implementation details
 ### Distance Algorithms
 
-In this project, we created a Main file, which will handle all the basic requirements -
-Building the vectors according to the user's input as command line arguements, 
+We have a server, which will accept new clients and work with each one on a seperate thread,
+saving their data in a new class, called Client. The data of each client will be made of items to classify, classified items, options of the
+algorithm to use and more, as all of the above is used to communicate and help the server to proccess the data, maintaining communications with the client as well.
 
 The algorithms implementation reside in Algorithms.cpp source file. There is also a header file Algorithms.h for this source file which the main includes in order to have access to the algorithms.
 
@@ -145,19 +138,33 @@ count the K - first TypeVectors, and find the one who appeared the most times - 
 running, sent back to the client as simple text to print.
 After finishing, the server will wait for more data to be sent, and allows up to 5 clients simultaneously.
 
-# MORE INFO ABOUT THE NEXT TASK
 ### Design Patter: Command
 ![image](https://user-images.githubusercontent.com/116657293/211402849-f1d01908-18af-4c38-a03a-fede81e50ece.png)
 
-In this pattern, each command sent from a user will be some class, with attributes of:
-- String describing the action of the command.
-- dIO item, which reading/sending data to the server.
+New design pattern, utilising Command.h abstract class. Each request by the client is a command to the server, to execute accordingly.
+Each Command uses the Command.h header file, implementing it: execute is abstract, and each command will implement it.
+The fields for the commands are the DefaultIO (another class) and our class for saving data of a specific user - Client.
 
 Commands List:
-- Upload an unclassified CSV file to server
-- Algorithm settings
-- Classify the data
-- Display results
-- Download results from server, into a CSV file
-   
+1) Upload the training file and the test file: Which are the classified and unclassified vectors files.
+2) Algorithm settings: Change method of calc. and amount of neighbors.
+3) Classify the data: Run the classification.
+4) Display results: In simple text.
+5) Download results from server, into a file in the path of the user's system.
+8) Exit.
+
+### DefaultIO
+Another abstract class, which is implemented by SocketIO, and StandardIO.
+StandardIO is simple interaction using standard input/output via keyboard and screen.
+SocketIO is interaction for client/server on the network, receiving byte-byte and sending a chunk of bytes to
+client, which in turn, reads byte-byte until a signal is sent to stop expecting for data from the server.
+
+### CLI
+A new class which will maintain the correct operation of commands on the server.
+It has info about the commands, mapped to their numbers, which the user entered in order to execute.
+
+### Client
+As mentioned earlier, a class used to save a client's info for the server to process, send and receive,
+in it's respective thread.
+
 <sub> Images and some explanations sourced from Wikipedia pages of the distance formulas </sub>
